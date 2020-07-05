@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graph", "Graph\Graph.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geometry", "Geometry\Geometry.csproj", "{FA4D0006-C08E-45F2-A4C3-47619FF42B76}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumberTheory", "NumberTheory\NumberTheory.csproj", "{B4220520-C361-4935-8DA2-6AB15F689D95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{FA4D0006-C08E-45F2-A4C3-47619FF42B76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA4D0006-C08E-45F2-A4C3-47619FF42B76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA4D0006-C08E-45F2-A4C3-47619FF42B76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4220520-C361-4935-8DA2-6AB15F689D95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4220520-C361-4935-8DA2-6AB15F689D95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4220520-C361-4935-8DA2-6AB15F689D95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4220520-C361-4935-8DA2-6AB15F689D95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
