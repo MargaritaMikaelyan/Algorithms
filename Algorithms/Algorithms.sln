@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sorting", "Sorting\Sorting.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringHashing", "StringHashing\StringHashing.csproj", "{5C48B46E-16EF-4785-971A-B9E82A51E843}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hashing", "Hashing\Hashing.csproj", "{C4F5E753-1550-4E44-AC83-B0B88971341D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{5C48B46E-16EF-4785-971A-B9E82A51E843}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C48B46E-16EF-4785-971A-B9E82A51E843}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C48B46E-16EF-4785-971A-B9E82A51E843}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4F5E753-1550-4E44-AC83-B0B88971341D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4F5E753-1550-4E44-AC83-B0B88971341D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4F5E753-1550-4E44-AC83-B0B88971341D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4F5E753-1550-4E44-AC83-B0B88971341D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
