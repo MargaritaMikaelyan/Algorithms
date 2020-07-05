@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackTracking", "BackTrackin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DP", "DP\DP.csproj", "{BDBC71AB-E416-448A-BC01-B2C70663710C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graph", "Graph\Graph.csproj", "{AB75303D-61A0-4817-8659-0D969A40A010}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{BDBC71AB-E416-448A-BC01-B2C70663710C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDBC71AB-E416-448A-BC01-B2C70663710C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDBC71AB-E416-448A-BC01-B2C70663710C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB75303D-61A0-4817-8659-0D969A40A010}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB75303D-61A0-4817-8659-0D969A40A010}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB75303D-61A0-4817-8659-0D969A40A010}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB75303D-61A0-4817-8659-0D969A40A010}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
