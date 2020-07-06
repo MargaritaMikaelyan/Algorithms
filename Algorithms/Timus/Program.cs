@@ -11,10 +11,25 @@ namespace Timus
     {
         static void Main(string[] args)
         {
-           
         }
 
-     
+
+        static void Timus2065()
+        {
+            var nk = Console.ReadLine().Split();
+            var n = int.Parse(nk[0]);
+            var k = int.Parse(nk[1]);
+            for (int i = 0; i <= n - k; i++)
+                Console.Write("0 ");
+            var num = 0;
+            while (k > 1)
+            {
+                k--;
+                num = num <= 0 ? 1 - num : -num;
+                Console.Write(num + " ");
+            }
+        }
+
         static void Timus1688()
         {
             var nm = Console.ReadLine().Split();
