@@ -11,8 +11,43 @@ namespace Timus
     {
         static void Main(string[] args)
         {
+            Timus1868();
         }
 
+        static void Timus1868()
+        {
+            var dict = new Dictionary<string, string>();
+            for (int i = 0; i < 4; i++)
+            {
+                dict.Add(Console.ReadLine(), "gold");
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                dict.Add(Console.ReadLine(), "silver");
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                dict.Add(Console.ReadLine(), "bronze");
+            }
+            var n = Convert.ToInt32(Console.ReadLine());
+            var answer = new int[n];
+            for (int i = 0; i < n; i++)
+            {
+                var count = 0;
+                var m = Convert.ToInt32(Console.ReadLine());
+                for (int j = 0; j < m; j++)
+                {
+                    var rp = Console.ReadLine().Split(new[] { ' ', ':' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (dict.ContainsKey(rp[0]))
+                        if (dict[rp[0]] == rp[1])
+                            count++;
+                }
+                answer[i] = count;
+            }
+            var max = answer.Max();
+            var counts = answer.Count(x => x == max);
+            Console.WriteLine(counts * 5);
+        }
 
         static void Timus2065()
         {
