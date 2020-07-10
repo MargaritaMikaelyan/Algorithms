@@ -1,4 +1,5 @@
 ﻿using Graph;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,48 @@ namespace DataStructures
     {
         static void Main(string[] args)
         {
+           
         }
 
+        static void Timus1494()
+        {
+            var n = int.Parse(Console.ReadLine());
+            var arr = new int[n];
+            var s = new Stack<int>();
+            for (int i = 0; i < n; i++)
+                arr[i] = int.Parse(Console.ReadLine());
+             
+            if (n == 1)
+            {
+                Console.WriteLine("Not a proof");
+                return;
+            }
+            var isCheater = false;
+            var current = 0;
+            foreach (var a in arr)
+            {
+                if (a > current)
+                {
+                    for (var i = current + 1; i < a; i++)
+                    {
+                        s.Push(i);
+                    }
+                    current = a;
+                }
+                else
+                {
+                    if (a == s.Peek())
+                        s.Pop();
+                    else
+                    {
+                        isCheater = true;
+                        break;
+                    }
+                }
+            }
+
+            Console.WriteLine(isCheater ? "Cheater" : "Not a proof");
+        }
 
         private static void Timus1028()
         {
