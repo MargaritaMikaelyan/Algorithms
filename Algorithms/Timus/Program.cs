@@ -10,8 +10,28 @@ namespace Timus
     class Program
     {
         static void Main(string[] args)
+
         {
             
+        }
+
+        private static void Timus1931()
+        {
+            var n = Int32.Parse(Console.ReadLine());
+            var arr = Console.ReadLine().Split().Select(Int32.Parse).ToArray();
+            var current = 0;
+            var pirates = new int[n];
+            for (int i = 1; i < arr.Length; i++)
+            {
+                pirates[i]++;
+                pirates[current]++;
+                if (arr[current] > arr[i])
+                    current = i;
+            }
+
+            var max = pirates.Max();
+            var index = pirates.ToList().IndexOf(max);
+            Console.WriteLine(index + 1);
         }
 
         static void Timus1868()
@@ -52,8 +72,8 @@ namespace Timus
         static void Timus2065()
         {
             var nk = Console.ReadLine().Split();
-            var n = int.Parse(nk[0]);
-            var k = int.Parse(nk[1]);
+            var n = Int32.Parse(nk[0]);
+            var k = Int32.Parse(nk[1]);
             for (int i = 0; i <= n - k; i++)
                 Console.Write("0 ");
             var num = 0;
@@ -68,12 +88,12 @@ namespace Timus
         static void Timus1688()
         {
             var nm = Console.ReadLine().Split();
-            var n = int.Parse(nm[0]);
-            var m = int.Parse(nm[1]);
+            var n = Int32.Parse(nm[0]);
+            var m = Int32.Parse(nm[1]);
             n *= 3;
             for (int i = 0; i < m; i++)
             {
-                var money = int.Parse(Console.ReadLine());
+                var money = Int32.Parse(Console.ReadLine());
                 n -= money;
                 if (n >= 0) continue;
                 Console.WriteLine("Free after {0} times.", i + 1);
@@ -86,7 +106,7 @@ namespace Timus
 
         static void Timus1711()
         {
-            var n = int.Parse(Console.ReadLine());
+            var n = Int32.Parse(Console.ReadLine());
             var codeNames = new string[n, 3];
             for (int i = 0; i < n; i++)
             {
@@ -100,10 +120,10 @@ namespace Timus
             var input = Console.ReadLine().Split();
             foreach (var q in input)
             {
-                queue.Enqueue(int.Parse(q) - 1);
+                queue.Enqueue(Int32.Parse(q) - 1);
             }
 
-            var lastName = codeNames[int.Parse(input[0]) - 1, 0];
+            var lastName = codeNames[Int32.Parse(input[0]) - 1, 0];
             var impossible = true;
             var ans = new List<string>();
             while (queue.Count > 0 && impossible)
@@ -112,7 +132,7 @@ namespace Timus
                 var current = queue.Dequeue();
                 for (int i = 0; i < 3; i++)
                 {
-                    if (string.CompareOrdinal(lastName, codeNames[current, i]) <= 0)
+                    if (String.CompareOrdinal(lastName, codeNames[current, i]) <= 0)
                     {
                         impossible = true;
                         lastName = codeNames[current, i];
@@ -139,12 +159,12 @@ namespace Timus
         static void Timus1228()
         {
             var ns = Console.ReadLine().Split();
-            var n = int.Parse(ns[0]);
-            var s = int.Parse(ns[1]);
+            var n = Int32.Parse(ns[0]);
+            var s = Int32.Parse(ns[1]);
 
             for (int i = 0; i < n; i++)
             {
-                var d = int.Parse(Console.ReadLine());
+                var d = Int32.Parse(Console.ReadLine());
                 Console.WriteLine(s / d - 1);
                 s = d;
             }
@@ -155,12 +175,12 @@ namespace Timus
             var color = Console.ReadLine().Split();
             var colors = new Dictionary<string, int>
             {
-                {"Blue", int.Parse(color[0])},
-                {"Red", int.Parse(color[1])},
-                {"Yellow", int.Parse(color[2])}
+                {"Blue", Int32.Parse(color[0])},
+                {"Red", Int32.Parse(color[1])},
+                {"Yellow", Int32.Parse(color[2])}
             };
 
-            var k = int.Parse(Console.ReadLine());
+            var k = Int32.Parse(Console.ReadLine());
             var w = 1;
             for (int i = 0; i < k; i++)
             {
@@ -173,7 +193,7 @@ namespace Timus
 
         static void Timus1446()
         {
-            var n = int.Parse(Console.ReadLine());
+            var n = Int32.Parse(Console.ReadLine());
             var l1 = new List<string>();
             var l2 = new List<string>();
             var l3 = new List<string>();
@@ -244,12 +264,12 @@ namespace Timus
         static void Timus1370()
         {
             var nm = Console.ReadLine().Split();
-            var n = int.Parse(nm[0]);
-            var m = int.Parse(nm[1]);
+            var n = Int32.Parse(nm[0]);
+            var m = Int32.Parse(nm[1]);
             var arr = new int[n];
             for (int i = 0; i < n; i++)
             {
-                arr[i] = int.Parse(Console.ReadLine());
+                arr[i] = Int32.Parse(Console.ReadLine());
             }
             LeftRotate(arr, m);
             for (int i = 0; i < 10; i++)
@@ -271,10 +291,10 @@ namespace Timus
         }
         public static void Timus1506()
         {
-            var nk = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var nk = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
             var n = nk[0];
             var k = nk[1];
-            var input = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var input = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
             k = (n + k - 1) / k;
             for (int i = 0; i < k; i++)
             {
@@ -360,7 +380,7 @@ namespace Timus
             var list = new List<Job>();
             for (int i = 0; i < n; i++)
             {
-                var se = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+                var se = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
                 list.Add(new Job(Math.Min(se[0], se[1]), Math.Max(se[1], se[0]), 1));
 
             }
@@ -524,7 +544,7 @@ namespace Timus
                     }
                 }
             }
-            var number = long.Parse(num + zeros);
+            var number = Int64.Parse(num + zeros);
             var res = new BigInteger(0);
             foreach (var s in nums)
             {
@@ -554,10 +574,10 @@ namespace Timus
         }
         static void DMaze()
         {
-            var nx = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var nx = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
             var n = nx[0];
             var x = nx[1];
-            var coordinates = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var coordinates = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
 
             var max = -1000;
             var min = 1000;
@@ -599,7 +619,7 @@ namespace Timus
             var t = Convert.ToInt32(Console.ReadLine());
             for (int i = 0; i < t; i++)
             {
-                var ab = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+                var ab = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
                 var a = ab[0];
                 var b = ab[1];
 
@@ -638,7 +658,7 @@ namespace Timus
             var k = Convert.ToInt32(Console.ReadLine());
             for (int i = 0; i < k; i++)
             {
-                var input = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+                var input = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
                 var e = input[0];
                 var n = input[1];
                 var c = input[2];
@@ -740,7 +760,7 @@ namespace Timus
             var k = Convert.ToInt32(Console.ReadLine());
             for (int i = 1; i <= k; i++)
             {
-                var an = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+                var an = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
                 var a = an[0] % an[1];
                 var n = an[1];
                 if (a == 1)
@@ -963,7 +983,7 @@ namespace Timus
         static void GetTogetheratDens()
         {
             var n = Convert.ToInt32(Console.ReadLine());
-            var liters = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var liters = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
 
             var sum = liters.Sum();
             double average = (double)sum / (n + 1);
@@ -1111,8 +1131,8 @@ namespace Timus
         }
         static void CoatTransportation()
         {
-            var nr = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
-            var arr = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var nr = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
+            var arr = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
             var n = nr[0];
             var r = nr[1];
             int j = 0;
@@ -1129,7 +1149,7 @@ namespace Timus
                 }
                 else
                 {
-                    ans.Add(new List<int> { i });
+                    ans.Add(new List<int> {i});
                     queue.Enqueue(new KeyValuePair<int, int>(arr[i - 1] + r, ++j));
                 }
             }
@@ -1206,7 +1226,7 @@ namespace Timus
 
             for (int j = 0; j < k; j++)
             {
-                if (!char.IsDigit(s[j]))
+                if (!Char.IsDigit(s[j]))
                     j--;
                 else n = n * 10 + (s[j] - '0');
             }
@@ -1225,7 +1245,7 @@ namespace Timus
                     break;
                 }
             }
-            Console.WriteLine(string.Format("{0:000000000000}", n));
+            Console.WriteLine(String.Format("{0:000000000000}", n));
         }
         static void FibonacciSequence()
         {
@@ -1237,7 +1257,7 @@ namespace Timus
                 F[k] = BigInteger.Add(F[k - 1], F[k - 2]);
             }
 
-            var input = Console.ReadLine().Split(' ').Select(long.Parse).ToArray();
+            var input = Console.ReadLine().Split(' ').Select(Int64.Parse).ToArray();
             var i = input[0];
             BigInteger fi = new BigInteger(input[1]);
             var j = input[2];
@@ -1430,7 +1450,7 @@ namespace Timus
                 min = 2 * Math.Sqrt(weights[i] * min);
             }
 
-            Console.WriteLine(string.Format("{0:0.00}", min));
+            Console.WriteLine(String.Format("{0:0.00}", min));
         }
 
         static long HashString(string str)
@@ -1448,7 +1468,7 @@ namespace Timus
         }
         static void SoldOut()
         {
-            var nk = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var nk = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
             var n = nk[0];
             var k = nk[1];
             if (Math.Max(k - 1, n - k) >= 2)
@@ -1458,7 +1478,7 @@ namespace Timus
         }
         static void HammingCode()
         {
-            var input = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var input = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
             bool[] petal = new bool[3];
             if ((input[0] + input[1] + input[3]) % 2 == input[6])
                 petal[0] = true;
@@ -1571,7 +1591,7 @@ namespace Timus
         }
         static void CityBlocks()
         {
-            var nm = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var nm = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
             var n = nm[0];
             var m = nm[1];
 
@@ -1713,7 +1733,7 @@ namespace Timus
         }
         static void Dwarf()
         {
-            var input = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var input = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
             var dwarfspot = (double)input[0];
             var dwarfslife = input[1];
             var pay = input[2];
@@ -1828,7 +1848,7 @@ namespace Timus
         }
         static void Bookmakers()
         {
-            var k = Console.ReadLine().Split(' ').Select(double.Parse).ToArray();
+            var k = Console.ReadLine().Split(' ').Select(Double.Parse).ToArray();
             var ans = Math.Round(1000 / ((k[0] / k[1]) + (k[0] / k[2]) + 1) * k[0]);
             Console.WriteLine(ans);
         }
@@ -1875,7 +1895,7 @@ namespace Timus
             var stack = new Stack<char>();
             for (int i = 0; i < text.Length; i++)
             {
-                if (char.IsLetter(text[i]))
+                if (Char.IsLetter(text[i]))
                     stack.Push(text[i]);
                 else
                 {
@@ -1895,10 +1915,10 @@ namespace Timus
         static void FalseMirrors()
         {
             var n = Convert.ToInt32(Console.ReadLine());
-            var nums = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var nums = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
 
             var dp = new int[n + 1, n + 1];
-            int min = int.MaxValue;
+            int min = Int32.MaxValue;
 
             for (int i = 0; i < n; i++)
             {
@@ -1931,7 +1951,7 @@ namespace Timus
         static void Plato()
         {
             var n = Convert.ToInt32(Console.ReadLine());
-            var d = Console.ReadLine().Split(' ').Select(int.Parse).ToList();
+            var d = Console.ReadLine().Split(' ').Select(Int32.Parse).ToList();
 
             d.Sort();
             long sum = d.Sum();
@@ -1972,7 +1992,7 @@ namespace Timus
         }
         static void Cards()
         {
-            var nm = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var nm = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
             var n = nm[0];
             var m = nm[1];
             if (m > n)
@@ -1980,7 +2000,7 @@ namespace Timus
                 Console.WriteLine("NO");
                 return;
             }
-            var cards = Console.In.ReadToEnd().Split(new char[] { ' ', '\n', '\r', '\t' }, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
+            var cards = Console.In.ReadToEnd().Split(new char[] { ' ', '\n', '\r', '\t' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToList();
 
             cards.Sort();
 
@@ -2039,13 +2059,13 @@ namespace Timus
         }
         static void JediRiddle3()
         {
-            var nxy = Console.ReadLine().Split(' ').Select(long.Parse).ToArray();
+            var nxy = Console.ReadLine().Split(' ').Select(Int64.Parse).ToArray();
             var n = nxy[0];
             var x = nxy[1];
             var y = nxy[2];
 
-            var k = Console.ReadLine().Split(' ').Select(long.Parse).Reverse().ToArray();
-            var c = Console.ReadLine().Split(' ').Select(long.Parse).Reverse().ToArray();
+            var k = Console.ReadLine().Split(' ').Select(Int64.Parse).Reverse().ToArray();
+            var c = Console.ReadLine().Split(' ').Select(Int64.Parse).Reverse().ToArray();
 
             var matrix = new long[n, n];
             for (int i = 1; i < n; i++)
@@ -2099,7 +2119,7 @@ namespace Timus
         }
         static void JediRiddle2()
         {
-            var an = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var an = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
             var a = an[0];
             var n = an[1];
 
@@ -2160,7 +2180,7 @@ namespace Timus
         }
         static void JediRiddle()
         {
-            var abc = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var abc = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
             var a = abc[0];
             var b = abc[1];
             var c = abc[2];
@@ -2172,7 +2192,7 @@ namespace Timus
         static void SashaGrandMaster()
         {
             var n = Convert.ToInt64(Console.ReadLine());
-            var xy = Console.ReadLine().Split(' ').Select(long.Parse).ToArray();
+            var xy = Console.ReadLine().Split(' ').Select(Int64.Parse).ToArray();
             long x = xy[0];
             long y = xy[1];
 
@@ -2247,7 +2267,7 @@ namespace Timus
         }
         static void StrangeProcedure()
         {
-            var xy = Console.ReadLine().Split(' ').Select(long.Parse).ToArray();
+            var xy = Console.ReadLine().Split(' ').Select(Int64.Parse).ToArray();
             if (xy[0] < 0 || xy[1] < 0 || ((xy[0] + xy[1]) % 2 == 0))
                 Console.WriteLine(xy[0] + " " + xy[1]);
             else Console.WriteLine(xy[1] + " " + xy[0]);
@@ -2270,11 +2290,11 @@ namespace Timus
         }
         static void NeoVenice()
         {
-            var nts = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var nts = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
             int n = nts[0];
             int t = nts[1];
             int s = nts[2];
-            var arr = Console.ReadLine().Split(' ').Select(double.Parse).ToArray();
+            var arr = Console.ReadLine().Split(' ').Select(Double.Parse).ToArray();
 
             for (int i = 0; i < n; i++)
             {
@@ -2315,7 +2335,7 @@ namespace Timus
         {
             var text = Console.ReadLine();
             var sandro = "Sandro";
-            int ans = int.MaxValue;
+            int ans = Int32.MaxValue;
             for (int i = 0; i <= text.Length - 6; i++)
             {
                 int res = 0;
@@ -2351,7 +2371,7 @@ namespace Timus
             var list = new List<Job>();
             for (int i = 0; i < n; i++)
             {
-                var se = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+                var se = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
                 list.Add(new Job(se[0], se[1], 1));
             }
 
@@ -2371,7 +2391,7 @@ namespace Timus
         static void InterestingNumbers()
         {
             long[] PrimeNumbers = MakeSieve(10000000);
-            var LR = Console.ReadLine().Split(' ').Select(long.Parse).ToArray();
+            var LR = Console.ReadLine().Split(' ').Select(Int64.Parse).ToArray();
             long l = LR[0];
             long r = LR[1];
             long ans = r - l + 1;
@@ -2487,7 +2507,7 @@ namespace Timus
         }
         static void Handshakes()
         {
-            var nk = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var nk = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
             string[] s = Console.In.ReadToEnd().Split(new char[] { ' ', '\n', '\r', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 
             int n = nk[0];
@@ -2523,7 +2543,7 @@ namespace Timus
             var q = Convert.ToInt32(Console.ReadLine());
             for (int i = 0; i < q; i++)
             {
-                var ij = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+                var ij = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
                 ij[0]--;
                 ij[1]--;
                 if (ij[0] == 0)
@@ -2543,7 +2563,7 @@ namespace Timus
         }
         static void Boxes()
         {
-            var nab = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var nab = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
             int n = nab[0];
             int a = nab[1];
             int b = nab[2];
@@ -2571,8 +2591,8 @@ namespace Timus
         }
         static void Magic()
         {
-            var lands = Console.ReadLine().Split(' ').Select(long.Parse).ToArray();
-            var mana = Console.ReadLine().Split(' ').Select(long.Parse).ToArray();
+            var lands = Console.ReadLine().Split(' ').Select(Int64.Parse).ToArray();
+            var mana = Console.ReadLine().Split(' ').Select(Int64.Parse).ToArray();
 
             long a = lands[0];
             long b = lands[1];
@@ -2664,7 +2684,7 @@ namespace Timus
         static void GameOfNuts()
         {
             int n = Convert.ToInt32(Console.ReadLine());
-            var arr = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var arr = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
             int sum = 0;
 
             for (int i = 0; i < arr.Length; i++)
@@ -2729,10 +2749,10 @@ namespace Timus
         {
             int[,] table = new int[6, 6];
             int current = 0;
-            int min = int.MaxValue;
+            int min = Int32.MaxValue;
             for (int i = 1; i < 6; i++)
             {
-                var temp = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+                var temp = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
                 for (int j = 1; j < 6; j++)
                 {
                     table[i, j] = temp[j - 1];
@@ -2846,7 +2866,7 @@ namespace Timus
         }
         static void Dill()
         {
-            var nm = Console.ReadLine().Split(' ').Select(long.Parse).ToArray();
+            var nm = Console.ReadLine().Split(' ').Select(Int64.Parse).ToArray();
             long n = nm[0];
             long m = nm[1];
 
@@ -2862,7 +2882,7 @@ namespace Timus
         }
         static void PassengerComfort()
         {
-            var htvx = Console.ReadLine().Split(' ').Select(double.Parse).ToArray();
+            var htvx = Console.ReadLine().Split(' ').Select(Double.Parse).ToArray();
             double h = htvx[0];
             double t = htvx[1];
             double v = htvx[2];
@@ -2885,8 +2905,8 @@ namespace Timus
         static void GrandTheft()
         {
             int n = Convert.ToInt32(Console.ReadLine());
-            var arr = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
-            var players = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var arr = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
+            var players = Console.ReadLine().Split(' ').Select(Int32.Parse).ToArray();
             int playerOne = --players[0];
             int playerTwo = --players[1];
             long totalSum = arr.Sum();
@@ -2971,14 +2991,14 @@ namespace Timus
             for (int i = 0; i < n; i++)
             {
                 var input = Console.ReadLine()?.
-                    Split(' ').Select(int.Parse).ToArray();
+                    Split(' ').Select(Int32.Parse).ToArray();
                 for (int j = 0; j < n; j++)
                 {
                     Rec[i, j] = input[j];
                 }
             }
 
-            int ans = int.MinValue;
+            int ans = Int32.MinValue;
             for (int l = 0; l < n; l++)
             {
                 int[] Sum = new int[n];
@@ -3001,7 +3021,7 @@ namespace Timus
         {
             var mnk = Console.ReadLine()
                 ?.Split(' ')
-                .Select(int.Parse).ToArray();
+                .Select(Int32.Parse).ToArray();
             int l = 0;
 
         }
@@ -3107,7 +3127,7 @@ namespace Timus
             int q = Convert.ToInt32(tt[0]);
             int z = Convert.ToInt32(tt[1]);
             var sum = Console.ReadLine().Split(' ').
-                Select(n => int.Parse(n)).Sum();
+                Select(n => Int32.Parse(n)).Sum();
             if ((z - sum * 20) < q)
                 Console.WriteLine("Dirty debug :(");
             else
@@ -3245,16 +3265,16 @@ namespace Timus
             for (int i = 0; i < input.Length; i++)
             {
                 var s = input[i];
-                if (char.IsLetter(s))
+                if (Char.IsLetter(s))
                 {
                     if (first)
                     {
-                        Console.Write(char.ToUpper(s));
+                        Console.Write(Char.ToUpper(s));
                         first = false;
                     }
                     else
                     {
-                        Console.Write(char.ToLower(s));
+                        Console.Write(Char.ToLower(s));
                     }
                 }
                 else if (s == '?' || s == '.' || s == '!')
@@ -3759,10 +3779,10 @@ namespace Timus
         }
         static void DemocracyInDanger()
         {
-            int k = int.Parse(Console.ReadLine());
+            int k = Int32.Parse(Console.ReadLine());
             int sum = 0;
             var col = Console.ReadLine().Split(' ').
-                Select(n => int.Parse(n)).OrderBy(i => i).ToArray();
+                Select(n => Int32.Parse(n)).OrderBy(i => i).ToArray();
             for (int i = 0; i < (k + 1) / 2; i++)
             {
                 sum += (col[i] + 1) / 2;
@@ -3773,8 +3793,8 @@ namespace Timus
         static void HeatingMain()
         {
             var n = Console.ReadLine();
-            var sum = Console.ReadLine().Split(' ').Select(t => int.Parse(t)).ToArray().Sum();
-            Console.WriteLine(string.Format("{0:0.000000}", (double)sum / Convert.ToInt32(n)));
+            var sum = Console.ReadLine().Split(' ').Select(t => Int32.Parse(t)).ToArray().Sum();
+            Console.WriteLine(String.Format("{0:0.000000}", (double)sum / Convert.ToInt32(n)));
         }
         static void Taxi()
         {
@@ -3817,8 +3837,8 @@ namespace Timus
         {
             var nominals = new[] { 10, 50, 100, 500, 1000, 5000 };
 
-            var money = Console.ReadLine().Split(' ').Select(t => int.Parse(t)).ToArray();
-            var price = int.Parse(Console.ReadLine());
+            var money = Console.ReadLine().Split(' ').Select(t => Int32.Parse(t)).ToArray();
+            var price = Int32.Parse(Console.ReadLine());
 
             var total = 0;
             var min = -1;
@@ -4195,7 +4215,7 @@ namespace Timus
             for (int i = 1; i < arr.Length; i++)
             {
                 double temp = (double)arr[i] / m * 100;
-                Console.WriteLine(string.Format("{0:0.00}", temp) + "%");
+                Console.WriteLine(String.Format("{0:0.00}", temp) + "%");
 
             }
         }
@@ -4504,7 +4524,7 @@ namespace Timus
 
             for (int i = s.Length - 1; i >= 0; i--)
             {
-                Console.WriteLine("{0:0.0000}", Math.Sqrt(double.Parse(s[i])));
+                Console.WriteLine("{0:0.0000}", Math.Sqrt(Double.Parse(s[i])));
             }
         }
     }
