@@ -10,15 +10,23 @@ namespace Timus
     class Program
     {
         static void Main(string[] args)
-
         {
-            
+            Timus1964();
         }
 
+        private static void Timus1964()
+        {
+            var nk = Console.ReadLine().Split();
+            var n = int.Parse(nk[0]);
+            var k = int.Parse(nk[1]);
+            var p = Console.ReadLine().Split().Select(int.Parse).Sum();
+            var ans = p - n * (k - 1);
+            Console.WriteLine(ans < 0 ? 0 : ans);
+        }
         private static void Timus1931()
         {
             var n = Int32.Parse(Console.ReadLine());
-            var arr = Console.ReadLine().Split().Select(Int32.Parse).ToArray();
+            var arr = Console.ReadLine().Split().Select(int.Parse).ToArray();
             var current = 0;
             var pirates = new int[n];
             for (int i = 1; i < arr.Length; i++)
@@ -1149,7 +1157,7 @@ namespace Timus
                 }
                 else
                 {
-                    ans.Add(new List<int> {i});
+                    ans.Add(new List<int> { i });
                     queue.Enqueue(new KeyValuePair<int, int>(arr[i - 1] + r, ++j));
                 }
             }
@@ -1928,7 +1936,7 @@ namespace Timus
                 }
             }
         }
-       
+
         static void Hyperjump()
         {
             var n = Convert.ToInt32(Console.ReadLine());
@@ -3120,7 +3128,7 @@ namespace Timus
             if (res >= 0) Console.WriteLine(res);
             else Console.WriteLine("Big Bang!");
         }
-      
+
         static void PenaltyTime()
         {
             var tt = Console.ReadLine().Split(' ');
@@ -3884,7 +3892,7 @@ namespace Timus
             }
 
         }
-      
+
         static void HeapSort(List<KeyValuePair<long, int>> arr)
         {
             int n = arr.Count;
