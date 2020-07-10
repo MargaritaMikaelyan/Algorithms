@@ -372,26 +372,6 @@ namespace Graph
 
         }
 
-
-        private static void Stars()
-        {
-            int n = Convert.ToInt32(Console.ReadLine());
-            var st = new SegmentTree(n);
-            var level = new int[n];
-            for (int i = 0; i < n; i++)
-            {
-                var temp = Console.ReadLine().Split(' ');
-                var x = int.Parse(temp[0]);
-                level[st.GetSum(0, 40000, 0, x, 0)]++;
-                st.UpdateValue(0, 40000, x, 1, 0);
-            }
-
-            for (int i = 0; i < level.Length; i++)
-            {
-                Console.WriteLine(level[i]);
-            }
-        }
-
         static Dictionary<string, int> map = new Dictionary<string, int>();
         static List<List<string>> groups = new List<List<string>>();
         public static void LegendaryTeams()
@@ -623,42 +603,6 @@ namespace Graph
             foreach (var k0 in k)
             {
                 Console.WriteLine(k0.From + " " + k0.To);
-            }
-        }
-
-        public static void DistanceintheTree()
-        {
-            var n = Convert.ToInt32(Console.ReadLine());
-            if (n == 1)
-            {
-                Console.WriteLine(0);
-                return;
-            }
-
-            var tree = new Tree(n);
-            for (int i = 1; i < n; i++)
-            {
-                var input = Console.ReadLine().Split().Select(Int32.Parse).ToArray();
-                tree.AddEdge(input[0], input[1], input[2]);
-            }
-
-            tree.PreCalculate();
-            var m = Convert.ToInt32(Console.ReadLine());
-            for (int i = 0; i < m; i++)
-            {
-                var input = Console.ReadLine().Split().Select(Int32.Parse).ToArray();
-                var x = input[0];
-                var y = input[1];
-                if (x == y)
-                    Console.WriteLine(0);
-                else
-                {
-                    var node = tree.LCA(x, y);
-                    var xw = tree._weighted[x];
-                    var yw = tree._weighted[y];
-                    var nw = tree._weighted[node];
-                    Console.WriteLine(xw + yw - 2 * nw);
-                }
             }
         }
 
