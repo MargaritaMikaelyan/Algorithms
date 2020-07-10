@@ -7,8 +7,45 @@ namespace NumberTheory
     {
         static void Main(string[] args)
         {
-
+            
         }
+
+        static void Timus1430()
+        {
+            var abn = Console.ReadLine().Split();
+            var a = long.Parse(abn[0]);
+            var b = long.Parse(abn[1]);
+            var n = long.Parse(abn[2]);
+            if (a < b)
+            {
+                var t = FindMinDuration(b, a, n);
+                Console.WriteLine(t.Item2 + " " + t.Item1);
+            }
+            else
+            {
+                var t = FindMinDuration(a, b, n);
+                Console.WriteLine(t.Item1 + " " + t.Item2);
+            }
+        }
+        static Tuple<long, long> FindMinDuration(long a, long b, long n)
+        {
+            var min = long.MaxValue;
+            var x = 0l;
+            for (int i = 0; i * a <= n; i++)
+            {
+                if ((n - i * a) % b < min)
+                {
+                    min = (n - i * a) % b;
+                    x = i;
+                }
+                else if (i * a % b == a % b && i > 1) 
+                    break;
+            }
+
+            return Tuple.Create(x, (n - a * x) / b);
+        }
+
+
         static void Timus1049()
         {
             for (int i = 0; i < 10; i++)

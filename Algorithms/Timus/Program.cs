@@ -11,7 +11,7 @@ namespace Timus
     {
         static void Main(string[] args)
         {
-            Timus1868();
+            
         }
 
         static void Timus1868()
