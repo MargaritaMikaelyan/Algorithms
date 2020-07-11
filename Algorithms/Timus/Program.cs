@@ -11,7 +11,34 @@ namespace Timus
     {
         static void Main(string[] args)
         {
-            Timus1964();
+            
+        }
+
+        private static void Timus1788()
+        {
+            var nm = Console.ReadLine().Split();
+            var n = int.Parse(nm[0]);
+            var m = int.Parse(nm[1]);
+            var girls = Console.ReadLine().Split().Select(int.Parse).ToList();
+            var boys = Console.ReadLine().Split().Select(int.Parse).ToList();
+
+            girls.Sort();
+            boys.Sort();
+
+            var min = int.MaxValue;
+            for (int k = 0; k <= Math.Min(n, m); k++)
+            {
+                var current = 0;
+                for (int i = 0; i < m - k; i++)
+                    current += boys[i];
+                current *= k;
+                for (int i = 0; i < n - k; i++)
+                    current += girls[i];
+
+                min = Math.Min(min, current);
+            }
+
+            Console.WriteLine(min);
         }
 
         private static void Timus1964()
@@ -23,6 +50,7 @@ namespace Timus
             var ans = p - n * (k - 1);
             Console.WriteLine(ans < 0 ? 0 : ans);
         }
+
         private static void Timus1931()
         {
             var n = Int32.Parse(Console.ReadLine());
