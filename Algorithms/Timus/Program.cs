@@ -11,7 +11,25 @@ namespace Timus
     {
         static void Main(string[] args)
         {
-            
+           
+        }
+
+        static void Timus1026()
+        {
+            var n = int.Parse(Console.ReadLine());
+            var database = new List<int>();
+            for (int i = 0; i < n; i++)
+                database.Add(int.Parse(Console.ReadLine()));
+
+            database.Sort();
+
+            var f = Console.ReadLine();
+            var k = int.Parse(Console.ReadLine());
+            for (int i = 0; i < k; i++)
+            {
+                var q = int.Parse(Console.ReadLine());
+                Console.WriteLine(database[q - 1]);
+            }
         }
 
         private static void Timus1788()
