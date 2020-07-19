@@ -11,7 +11,39 @@ namespace Timus
     {
         static void Main(string[] args)
         {
-            Timus1178();
+           
+        }
+
+        static void Timus1576()
+        {
+            var n1c1 = Console.ReadLine().Split();
+            var n1 = int.Parse(n1c1[0]);
+            var c1 = int.Parse(n1c1[1]);
+
+            var n2tc2 = Console.ReadLine().Split();
+            var n2 = int.Parse(n2tc2[0]);
+            var t = int.Parse(n2tc2[1]);
+            var c2 = int.Parse(n2tc2[2]);
+
+            var n3 = int.Parse(Console.ReadLine());
+            var k = int.Parse(Console.ReadLine());
+
+            double time = 0;
+            for (int i = 0; i < k; i++)
+            {
+                var call = Console.ReadLine().Split(':');
+                var mm = int.Parse(call[0]);
+                var ss = int.Parse(call[1]);
+                if (mm == 0 && ss <= 6) continue;
+                time += mm;
+                if (ss != 0)
+                    time++;
+            }
+
+            Console.WriteLine("Basic:     {0}", n1 + c1 * time);
+            Console.WriteLine("Combined:  {0}", n2 + Math.Max(0, time - t) * c2);
+            Console.WriteLine("Unlimited: {0}", n3);
+
         }
 
         static void Timus1178()
@@ -26,11 +58,12 @@ namespace Timus
                 list.Add(Tuple.Create(x, y, i + 1));
             }
             list.Sort();
-            for (int i = 0; i < n - 1; i+=2)
+            for (int i = 0; i < n - 1; i += 2)
             {
                 Console.WriteLine(list[i].Item3 + " " + list[i + 1].Item3);
             }
         }
+
         static void Timus1026()
         {
             var n = int.Parse(Console.ReadLine());
