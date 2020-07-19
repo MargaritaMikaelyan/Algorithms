@@ -11,9 +11,26 @@ namespace Timus
     {
         static void Main(string[] args)
         {
-           
+            Timus1178();
         }
 
+        static void Timus1178()
+        {
+            var n = int.Parse(Console.ReadLine());
+            var list = new List<Tuple<int, int, int>>();
+            for (int i = 0; i < n; i++)
+            {
+                var xy = Console.ReadLine().Split();
+                var x = int.Parse(xy[0]);
+                var y = int.Parse(xy[1]);
+                list.Add(Tuple.Create(x, y, i + 1));
+            }
+            list.Sort();
+            for (int i = 0; i < n - 1; i+=2)
+            {
+                Console.WriteLine(list[i].Item3 + " " + list[i + 1].Item3);
+            }
+        }
         static void Timus1026()
         {
             var n = int.Parse(Console.ReadLine());
