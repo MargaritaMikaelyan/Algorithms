@@ -7,7 +7,29 @@ namespace NumberTheory
     {
         static void Main(string[] args)
         {
-            
+          
+        }
+
+        /// <summary>
+        /// a^2 + b^2 / c
+        /// c = n^2
+        /// n^2 <= a,b,c <= (n+1)^2 = n^2 + 2n + 1
+        /// a = n^2 + k
+        /// b = n ^ 2 + d
+        /// a^2 + b^2 = 2*n^4 + 2*n^2(k + d) + k^2 + d^2
+        ///                      k = n && d = 2n =>/c
+        /// a = n^2 + n
+        /// b = n^2 + 2n
+        /// c = n^2
+        /// </summary>
+        static void Timus1335()
+        {
+            var n = long.Parse(Console.ReadLine());
+            var a = n * n + n;
+            var b = n * n + 3 * n;
+            var c = n * n;
+
+            Console.WriteLine(a + " " + b + " " + c);
         }
 
         static void Timus1430()
@@ -38,7 +60,7 @@ namespace NumberTheory
                     min = (n - i * a) % b;
                     x = i;
                 }
-                else if (i * a % b == a % b && i > 1) 
+                else if (i * a % b == a % b && i > 1)
                     break;
             }
 
@@ -86,7 +108,7 @@ namespace NumberTheory
             var ans = new int[100005];
 
             // Calculates the number of divisors
-            for (var i = 1; i <= sum; i++) 
+            for (var i = 1; i <= sum; i++)
                 for (var j = i; j <= sum; j += i)
                     divisors[j]++;
 
