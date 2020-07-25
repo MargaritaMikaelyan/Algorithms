@@ -26,7 +26,7 @@ namespace NumberTheory
         {
             var n = long.Parse(Console.ReadLine());
             var a = n * n + n;
-            var b = n * n + 3 * n;
+            var b = n * n + 2 * n;
             var c = n * n;
 
             Console.WriteLine(a + " " + b + " " + c);
