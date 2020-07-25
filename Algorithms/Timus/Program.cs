@@ -14,6 +14,27 @@ namespace Timus
            
         }
 
+        static void Timus1135()
+        {
+            var n = int.Parse(Console.ReadLine());
+            var str = Console.In.ReadToEnd();
+
+            var index = 0;
+            var ans = 0;
+            var current = 0;
+
+            while (index < str.Length)
+            {
+                if (str[index] == '>')
+                    current++;
+                else if(str[index] == '<')
+                    ans += current;
+                index++;
+            }
+
+            Console.WriteLine(ans);
+        }
+
         static void Timus1576()
         {
             var n1c1 = Console.ReadLine().Split();
