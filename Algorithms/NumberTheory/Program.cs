@@ -7,7 +7,36 @@ namespace NumberTheory
     {
         static void Main(string[] args)
         {
-          
+            
+        }
+
+        static void Timus1756()
+        {
+            var md1d2 = Console.ReadLine().Split();
+            var m1 = int.Parse(md1d2[0]);
+            var d1 = int.Parse(md1d2[1]);
+            var d2 = int.Parse(md1d2[2]);
+
+            var total = m1 * d1;
+            int m2;
+            if (total % d2 == 0)
+                m2 = total / d2;
+            else 
+                m2 = total / d2 + 1;
+
+            for (int i = 0; i < d2; i++)
+            {
+                if(total >= m2)
+                {
+                    Console.Write(m2 + " ");
+                    total -= m2;
+                }
+                else
+                {
+                    Console.Write(total + " ");
+                    total = Math.Max(total - m2, 0);
+                }
+            }
         }
 
         /// <summary>
