@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
@@ -11,7 +12,31 @@ namespace Timus
     {
         static void Main(string[] args)
         {
-           
+        }
+
+        static void Timus1010()
+        {
+            var n = int.Parse(Console.ReadLine());
+            var points = new List<long>();
+            for (int i = 1; i <= n; i++)
+            {
+                var y = long.Parse(Console.ReadLine());
+                points.Add(y);
+            }
+
+            var maxX1 = long.MinValue;
+            var max = long.MinValue;
+            for (int i = 1; i < points.Count; i++)
+            {
+                if (Math.Abs(points[i] - points[i - 1]) > max)
+                {
+                    max = Math.Abs(points[i] - points[i - 1]);
+                    maxX1 = i;
+                }
+            }
+
+            Console.WriteLine(maxX1 + " " + (maxX1 + 1));
+
         }
 
         static void Timus1135()
@@ -27,7 +52,7 @@ namespace Timus
             {
                 if (str[index] == '>')
                     current++;
-                else if(str[index] == '<')
+                else if (str[index] == '<')
                     ans += current;
                 index++;
             }
