@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.ExceptionServices;
 using System.Text;
 
 namespace Timus
@@ -12,6 +13,90 @@ namespace Timus
     {
         static void Main(string[] args)
         {
+          
+        }
+
+        static void Timus1993()
+        {
+            var input = Console.In.ReadToEnd();
+            var _subject = "";
+            var _object = "";
+            var _verb = "";
+
+            var _startSubject = false;
+            var _startObject = false;
+            var _startVerb = false;
+            int j = 0;
+            foreach (var c in input)
+            {
+                if (c == '\n') break;
+
+                if (c == '(') { _startSubject = true; j=0;}
+                else if (c == '{') { _startObject = true; j = 0; }
+                else if (c == '[') { _startVerb = true; j= 0; }
+
+                else if (c == ')') { _startSubject = false; }
+                else if (c == '}') { _startObject = false; }
+                else if (c == ']') { _startVerb = false; }
+
+                else if (_startSubject) { _subject += char.ToLower(c); }
+                else if (_startObject) { _object += char.ToLower(c); }
+                else if (_startVerb) { _verb += char.ToLower(c); }
+
+                else if (c == ',')
+                {
+                    PrintSentence(_object, _subject, _verb);
+                    _subject = "";
+                    _object = "";
+                    _verb = "";
+                    j = 1;
+                    Console.Write(c);
+                }
+                else if(j == 1)
+                    Console.Write(c);
+              
+            }
+
+            if (_object[0] != ' ')
+            {
+                PrintSentence(_object, _subject, _verb);
+            }
+
+        }
+        static bool first = true;
+        static void PrintSentence(string obj, string subj, string verb)
+        {
+            if (first && obj.Length > 0)
+            {
+                obj = char.ToUpper(obj[0]) + obj.Remove(0, 1);
+                first = false;
+            }
+            Console.Write("{0} {1} {2}", obj, subj, verb);
+        }
+
+        static void Timus1273()
+        {
+            var k = int.Parse(Console.ReadLine());
+            var ans = k;
+            var points = new List<Tuple<int, int>>();
+            for (int i = 0; i < k; i++)
+            {
+                var xy = Console.ReadLine().Split();
+                points.Add(Tuple.Create(int.Parse(xy[0]), int.Parse(xy[1])));
+            }
+
+            points = points.OrderBy(a => a.Item2).ToList();
+            for (int i = 0; i < points.Count; i++)
+            {
+                points[i] = Tuple.Create(points[i].Item1, i);
+            }
+
+            points = points.OrderBy(a => a.Item1).ToList();
+            for (int i = 0; i < points.Count; i++)
+            {
+                points[i] = Tuple.Create(i, points[i].Item2);
+            }
+
         }
 
         static void Timus1010()
