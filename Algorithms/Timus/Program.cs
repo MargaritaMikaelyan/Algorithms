@@ -11,7 +11,18 @@ namespace Timus
     {
         static void Main(string[] args)
         {
+        }
 
+        static void Timus1366()
+        {
+            var n = int.Parse(Console.ReadLine());
+            var dp = new BigInteger[1002];
+            dp[0] = BigInteger.One;
+            dp[1] = BigInteger.Zero;
+            for (int i = 2; i <= n; i++)
+                dp[i] = BigInteger.Multiply(BigInteger.Add(dp[i - 1], dp[i - 2]), (i - 1));
+
+            Console.WriteLine(dp[n]);
         }
 
         static void Timus1413()
