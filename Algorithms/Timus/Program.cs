@@ -11,7 +11,29 @@ namespace Timus
     {
         static void Main(string[] args)
         {
-          
+
+        }
+
+        static void Timus1413()
+        {
+            var input = Console.In.ReadToEnd();
+            var x = 0d;
+            var y = 0d;
+
+            var s = Math.Sqrt(2) / 2;
+            foreach (var c in input)
+            {
+                if (c == '2') y--;
+                if (c == '8') y++;
+                if (c == '4') x--;
+                if (c == '6') x++;
+                if (c == '1' || c == '7') x -= s;
+                if (c == '7' || c == '9') y += s;
+                if (c == '3' || c == '9') x += s;
+                if (c == '1' || c == '3') y -= s;
+                if (c == '0') break;
+            }
+            Console.Write($"{x:0.0000000000} " + $"{y:0.0000000000}");
         }
 
         static void Timus1993()
@@ -29,9 +51,9 @@ namespace Timus
             {
                 if (c == '\n') break;
 
-                if (c == '(') { _startSubject = true; j=0;}
+                if (c == '(') { _startSubject = true; j = 0; }
                 else if (c == '{') { _startObject = true; j = 0; }
-                else if (c == '[') { _startVerb = true; j= 0; }
+                else if (c == '[') { _startVerb = true; j = 0; }
 
                 else if (c == ')') { _startSubject = false; }
                 else if (c == '}') { _startObject = false; }
@@ -50,9 +72,9 @@ namespace Timus
                     j = 1;
                     Console.Write(c);
                 }
-                else if(j == 1)
+                else if (j == 1)
                     Console.Write(c);
-              
+
             }
 
             if (_object[0] != ' ')
@@ -1478,7 +1500,7 @@ namespace Timus
                     break;
                 }
             }
-            Console.WriteLine(String.Format("{0:000000000000}", n));
+            Console.WriteLine($"{n:000000000000}");
         }
         static void FibonacciSequence()
         {
@@ -1683,7 +1705,7 @@ namespace Timus
                 min = 2 * Math.Sqrt(weights[i] * min);
             }
 
-            Console.WriteLine(String.Format("{0:0.00}", min));
+            Console.WriteLine($"{min:0.00}");
         }
 
         static long HashString(string str)
