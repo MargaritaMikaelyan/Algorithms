@@ -9,8 +9,28 @@ namespace StringHashing
     {
         static void Main(string[] args)
         {
+            
         }
 
+        static void Timus1685()
+        {
+            word = Console.ReadLine();
+            answer = new char[word.Length];
+            FindRiddle(0, word.Length - 1);
+            foreach (var a in answer)
+                Console.Write(a);
+        }
+
+        public static string word;
+        public static int index = 0;
+        public static char[] answer;
+        public static void FindRiddle(int start, int end)
+        {
+            if (start > end) return;
+            answer[(start + end) / 2] = word[index++];
+            FindRiddle(start, (start + end) / 2 - 1);
+            FindRiddle((start + end) / 2 + 1, end);
+        }
 
         static void CostofDataHK()
         {
