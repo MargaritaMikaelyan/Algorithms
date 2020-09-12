@@ -17,33 +17,74 @@ namespace Graph
     {
         static void Main(string[] args)
         {
-            var n = int.Parse(Console.ReadLine());
-            var tree = new Tree(n);
-            for (int i = 0; i < n - 1; i++)
-            {
-                var ab = Console.ReadLine().Split();
-                var a = int.Parse(ab[0]) - 1;
-                var b = int.Parse(ab[1]) - 1;
-                tree.AddEdge(a, b, 1);
-            }
-            tree.PreCalculate();
-            var vert = tree._tree.Where(x => x.Value.Count == 1).ToList();
-            var min = int.MaxValue;
-            for (int i = 0; i < vert.Count - 1; i++)
-            {
-                for (int j = i + 1; j < vert.Count; j++)
-                {
-                    var l = tree.LCA(vert[i].Key, vert[j].Key);
-                    var d = tree._depth[l];
-                    var a = tree._depth[vert[i].Key] - d;
-                    var b = tree._depth[vert[j].Key] - d;
-                    min = Math.Min(a + b, min);
-                }
-            }
-
-            Console.WriteLine(min);
+            Timus2062();
         }
 
+
+        private static void Timus2062()
+        {
+            var n = int.Parse(Console.ReadLine());
+            var divisors = GetDivisors(n);
+            var particles = Console.ReadLine().Split().Select(long.Parse).ToList();
+            var q = long.Parse(Console.ReadLine());
+            var fenwickTree = new FenwickTree(n);
+            for (int i = 0; i < q; i++)
+            {
+                var action = Console.ReadLine().Split().Select(int.Parse).ToArray();
+                if (action[0] == 1)
+                {
+                    var ans = particles[action[1] - 1];
+                    foreach (var d in divisors[action[1]])
+                        ans += fenwickTree.Sum(d);
+                    Console.WriteLine(ans);
+                }
+                else
+                {
+                    var l = action[1];
+                    var r = action[2];
+                    var val = action[3];
+                    fenwickTree.Update(l, r, val);
+                }
+            }
+        }
+
+        private static List<int>[] GetDivisors(int n)
+        {
+            var divisors = new List<int>[300010];
+            for (int i = 1; i <= n; i++)
+                for (int j = 1; i * j <= n; j++)
+                {
+                    divisors[i * j] ??= new List<int>();
+                    divisors[i * j].Add(i);
+                }
+            return divisors;
+        }
+
+        // to be continued
+        static void Timus1930()
+        {
+            var nm = Console.ReadLine().Split();
+            var n = Int32.Parse(nm[0]);
+            var m = Int32.Parse(nm[1]);
+            var graph = new Graph<int>();
+            for (int i = 0; i < n; i++)
+            {
+                graph.AddVertex(i);
+            }
+
+            for (int i = 0; i < m; i++)
+            {
+                var c = Console.ReadLine().Split();
+                var v1 = Int32.Parse(c[0]) - 1;
+                var v2 = Int32.Parse(c[1]) - 1;
+                graph.AddEdge(v1, v2, v1 < v2 ? 1f : 0f);
+            }
+            var ivanOrlov = Console.ReadLine().Split();
+            var ivan = Int32.Parse(ivanOrlov[0]) - 1;
+            var orlov = Int32.Parse(ivanOrlov[1]) - 1;
+            var d = graph.ShortestPath(ivan, orlov).Count - 2;
+            Console.WriteLine(d);
+        }
 
         static long GCD(long a, long b)
         {
@@ -56,12 +97,12 @@ namespace Graph
             var m = brackets.Length;
             var bTree = new SegmentTree(m);
             bTree.BuildBracketTree(brackets, 0, m - 1, 1);
-            var n = int.Parse(Console.ReadLine());
+            var n = Int32.Parse(Console.ReadLine());
             for (int i = 0; i < n; i++)
             {
                 var input = Console.ReadLine().Split();
-                var l = int.Parse(input[0]) - 1;
-                var r = int.Parse(input[1]) - 1;
+                var l = Int32.Parse(input[0]) - 1;
+                var r = Int32.Parse(input[1]) - 1;
 
                 var pairs = bTree.GetBracket(0, m - 1, l, r, 1).pairs * 2;
                 Console.WriteLine(pairs);
@@ -71,10 +112,10 @@ namespace Graph
 
         static void AntColony()
         {
-            var n = int.Parse(Console.ReadLine());
+            var n = Int32.Parse(Console.ReadLine());
             var segmentTree = new SegmentTree(n);
             var tupleSegmentTree = new SegmentTree(n);
-            var arr = Console.ReadLine().Split().Select(long.Parse).ToArray();
+            var arr = Console.ReadLine().Split().Select(Int64.Parse).ToArray();
             var tupleArr = new Tuple<long, long>[n];
             for (int i = 0; i < n; i++)
                 tupleArr[i] = Tuple.Create(arr[i], 1L);
@@ -82,12 +123,12 @@ namespace Graph
             segmentTree.BuildGcdTree(arr, 0, n - 1, 1);
             tupleSegmentTree.BuildAdditionalMinTree(tupleArr, 0, n - 1, 1);
 
-            var q = int.Parse(Console.ReadLine());
+            var q = Int32.Parse(Console.ReadLine());
             for (int i = 0; i < q; i++)
             {
                 var input = Console.ReadLine().Split();
-                var l = long.Parse(input[0]) - 1;
-                var r = long.Parse(input[1]) - 1;
+                var l = Int64.Parse(input[0]) - 1;
+                var r = Int64.Parse(input[1]) - 1;
                 long ans = r - l + 1;
                 var gcd = segmentTree.GetGcd(0, n - 1, l, r, 1);
                 var min = tupleSegmentTree.GetAdditionalMin(0, n - 1, l, r, 1);
@@ -104,7 +145,7 @@ namespace Graph
 
             for (int i = 1; i <= n; i++)
             {
-                var input = Console.ReadLine().Split().Select(int.Parse).ToArray();
+                var input = Console.ReadLine().Split().Select(Int32.Parse).ToArray();
                 graph.AddVertex(input[0]);
                 graph.AddVertex(input[1]);
                 graph.AddEdge(input[0], input[1], 1);
@@ -127,8 +168,8 @@ namespace Graph
             string[] s = Console.In.ReadToEnd().Split(new char[] { ' ', '\n', '\r', '\t' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < s.Length; i += 2)
             {
-                var first = int.Parse(s[i]);
-                var second = int.Parse(s[i + 1]);
+                var first = Int32.Parse(s[i]);
+                var second = Int32.Parse(s[i + 1]);
                 graph.AddVertex(first);
                 graph.AddVertex(second);
                 graph.AddEdge(first, second, 1);
@@ -141,7 +182,7 @@ namespace Graph
         }
         static void BearAndFriendshipCondition()
         {
-            var nm = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            var nm = Console.ReadLine().Split().Select(Int32.Parse).ToArray();
             var n = nm[0];
             var m = nm[1];
             var dj = new DisjointSet(n);
@@ -149,7 +190,7 @@ namespace Graph
 
             for (int i = 0; i < m; i++)
             {
-                var input = Console.ReadLine().Split().Select(int.Parse).ToArray();
+                var input = Console.ReadLine().Split().Select(Int32.Parse).ToArray();
                 dj.Union(input[0], input[1]);
                 try
                 {
@@ -209,12 +250,12 @@ namespace Graph
 
         static void AliceAndHairdresser()
         {
-            var nml = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            var nml = Console.ReadLine().Split().Select(Int32.Parse).ToArray();
             var n = nml[0];
             var m = nml[1];
             var l = nml[2];
 
-            var hairs = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            var hairs = Console.ReadLine().Split().Select(Int32.Parse).ToArray();
             for (int i = 0; i < m; i++)
             {
                 var request = Console.ReadLine().Split();
@@ -225,8 +266,8 @@ namespace Graph
                 }
                 else
                 {
-                    var p = int.Parse(request[1]);
-                    var d = int.Parse(request[2]);
+                    var p = Int32.Parse(request[1]);
+                    var d = Int32.Parse(request[2]);
 
                     hairs[p - 1] += d;
                 }
@@ -235,7 +276,7 @@ namespace Graph
 
         public static void LearningLanguages()
         {
-            var nm = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            var nm = Console.ReadLine().Split().Select(Int32.Parse).ToArray();
             var n = nm[0];
             var k = nm[1];
             var dj = new DisjointSet(n + 1);
@@ -243,7 +284,7 @@ namespace Graph
             var noLang = 0;
             for (int i = 0; i < n; i++)
             {
-                var employee = Console.ReadLine().Split().Select(int.Parse).ToArray();
+                var employee = Console.ReadLine().Split().Select(Int32.Parse).ToArray();
                 if (employee[0] == 0)
                     noLang++;
 
@@ -276,7 +317,7 @@ namespace Graph
 
         public static void EdgyTrees()
         {
-            var nm = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            var nm = Console.ReadLine().Split().Select(Int32.Parse).ToArray();
             var n = nm[0];
             var k = nm[1];
             var graph = new Graph<double>();
@@ -286,7 +327,7 @@ namespace Graph
 
             for (int i = 1; i <= n - 1; i++)
             {
-                var input = Console.ReadLine().Split().Select(double.Parse).ToArray();
+                var input = Console.ReadLine().Split().Select(Double.Parse).ToArray();
                 graph.AddEdge(input[0], input[1], input[2]);
             }
 
@@ -329,7 +370,7 @@ namespace Graph
         }
         public static void CyclicComponents()
         {
-            var nm = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            var nm = Console.ReadLine().Split().Select(Int32.Parse).ToArray();
             var n = nm[0];
             var m = nm[1];
             var graph = new Graph<int>();
@@ -339,7 +380,7 @@ namespace Graph
 
             for (int i = 1; i <= m; i++)
             {
-                var input = Console.ReadLine().Split().Select(int.Parse).ToArray();
+                var input = Console.ReadLine().Split().Select(Int32.Parse).ToArray();
                 graph.AddEdge(input[0], input[1], 1);
             }
 
@@ -348,8 +389,8 @@ namespace Graph
 
         static void HE_ZerosAndOnes()
         {
-            int n = int.Parse(Console.ReadLine());
-            int q = int.Parse(Console.ReadLine());
+            int n = Int32.Parse(Console.ReadLine());
+            int q = Int32.Parse(Console.ReadLine());
             SegmentTree segmentTree = new SegmentTree(n);
             int[] arr = new int[n];
             for (int i = 0; i < n; i++)
@@ -360,9 +401,9 @@ namespace Graph
             for (int i = 0; i < q; i++)
             {
                 var input = Console.ReadLine().Split();
-                if (int.Parse(input[0]) == 0)
+                if (Int32.Parse(input[0]) == 0)
                 {
-                    segmentTree.UpdateValue(1, n, int.Parse(input[1]), 0, 1);
+                    segmentTree.UpdateValue(1, n, Int32.Parse(input[1]), 0, 1);
                 }
                 else
                 {
@@ -1125,3 +1166,29 @@ namespace Graph
         }
     }
 }
+
+  //var n = int.Parse(Console.ReadLine());
+            //var tree = new Tree(n);
+            //for (int i = 0; i < n - 1; i++)
+            //{
+            //    var ab = Console.ReadLine().Split();
+            //    var a = int.Parse(ab[0]) - 1;
+            //    var b = int.Parse(ab[1]) - 1;
+            //    tree.AddEdge(a, b, 1);
+            //}
+            //tree.PreCalculate();
+            //var vert = tree._tree.Where(x => x.Value.Count == 1).ToList();
+            //var min = int.MaxValue;
+            //for (int i = 0; i < vert.Count - 1; i++)
+            //{
+            //    for (int j = i + 1; j < vert.Count; j++)
+            //    {
+            //        var l = tree.LCA(vert[i].Key, vert[j].Key);
+            //        var d = tree._depth[l];
+            //        var a = tree._depth[vert[i].Key] - d;
+            //        var b = tree._depth[vert[j].Key] - d;
+            //        min = Math.Min(a + b, min);
+            //    }
+            //}
+
+            //Console.WriteLine(min);

@@ -71,7 +71,7 @@ namespace Graph
 
                // if (!isDirected && !AdjacencyList[vertexTo].ContainsKey(vertexFrom))
                // {
-                    //AdjacencyList[vertexTo].Add(vertexFrom, weight);
+               AdjacencyList[vertexTo].Add(vertexFrom, weight);
                     //EdgeSortedSet.Add(Tuple.Create(vertexTo, vertexFrom));
                 //}
             //}
