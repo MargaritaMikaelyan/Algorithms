@@ -13,6 +13,45 @@ namespace Timus
         {
         }
 
+        static void Timus1821()
+        {
+            var n = int.Parse(Console.ReadLine());
+            var biathletes = new Dictionary<int, Tuple<string, int>>();
+            for (int i = 0; i < n; i++)
+            {
+                var input = Console.ReadLine().Split(' ');
+                var name = input[0];
+                var time = ConvertTime(input[1]);
+                var finish = time + 300 * i;
+                biathletes.Add(finish, Tuple.Create(name, time));
+            }
+
+            var sortedTimes = biathletes.Keys.OrderBy(x => x).ToList();
+            var min = int.MaxValue;
+            var res = new List<string>();
+            foreach (var t in sortedTimes.Where(t => biathletes[t].Item2 < min))
+            {
+                min = biathletes[t].Item2;
+                res.Add(biathletes[t].Item1);
+            }
+
+            res.Sort();
+            Console.WriteLine(res.Count);
+            foreach (var t in res)
+                Console.WriteLine(t);
+
+        }
+
+        static int ConvertTime(string str)
+        {
+            var split = str.Split(new [] {':', '.'});
+            var mm = int.Parse(split[0]);
+            var ss = int.Parse(split[1]);
+            var d = int.Parse(split[2]);
+
+            return (mm * 60 + ss) * 10 + d;
+        }
+
         static void Timus1366()
         {
             var n = int.Parse(Console.ReadLine());
