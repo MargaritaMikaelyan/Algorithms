@@ -11,6 +11,95 @@ namespace Timus
     {
         static void Main(string[] args)
         {
+           
+        }
+
+        static void Timus1727()
+        {
+            var n = int.Parse(Console.ReadLine());
+            var temp = n;
+            var count = 0;
+            var numbers = new List<int>();
+            for (int i = 9; i >= 0 && temp > 0; --i)
+            {
+                for (int j = 9; j >= 0 && temp > 0; --j)
+                {
+                    for (int k = 9; k >= 0 && temp > 0; --k)
+                    {
+                        for (int l = 9; l >= 0 && temp > 0; --l)
+                        {
+                            var s = i + j + k + l;
+                            if (temp >= s)
+                            {
+                                temp -= s;
+                                count++;
+                                numbers.Add(1000 * i + 100 * j + 10 * k + l);
+                            }
+                        }
+                    }
+                }
+            }
+
+            Console.WriteLine(count);
+            foreach (var num in numbers)
+            {
+                Console.Write(num + " ");
+            }
+
+        }
+
+        static void Timus1193()
+        {
+            var n = int.Parse(Console.ReadLine());
+            var sortedList = new List<Tuple<int, int, int>>();
+            for (int i = 0; i < n; i++)
+            {
+                var input = Console.ReadLine().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                sortedList.Add(Tuple.Create(int.Parse(input[0]), int.Parse(input[1]), int.Parse(input[2])));
+            }
+            sortedList = sortedList.OrderBy(x => x.Item1).ToList();
+            var neededT = new List<int> { 0 };
+            var sum = sortedList[0].Item1 + sortedList[0].Item2;
+            if (sum > sortedList[0].Item3)
+                neededT.Add(sum - sortedList[0].Item3);
+            for (var i = 1; i < sortedList.Count; i++)
+            {
+                sum += sortedList[i].Item2;
+                if (sum > sortedList[i].Item3)
+                    neededT.Add(sum - sortedList[i].Item3);
+            }
+
+            Console.WriteLine(neededT.Max());
+        }
+
+        static void Timus1048()
+        {
+            var n = int.Parse(Console.ReadLine());
+            var num1 = new char[n + 1];
+            num1[0] = '0';
+            var num2 = new char[n + 1];
+            num2[0] = '0';
+            for (int i = 1; i <= n; i++)
+            {
+                var input = Console.ReadLine();
+                num1[i] = input[0];
+                num2[i] = input[2];
+            }
+
+            for (int i = n; i > 0; --i)
+            {
+                var temp = num1[i] - '0' + (num2[i] - '0');
+                num1[i] = (char)(temp % 10 + '0');
+                num1[i - 1] = (char)(num1[i - 1] - '0' + temp / 10 + '0');
+            }
+
+            var start = 1;
+            if (num1[0] != '0')
+                start = 0;
+            for (int i = start; i <= n; i++)
+            {
+                Console.Write(num1[i]);
+            }
         }
 
         static void Timus1821()
@@ -44,7 +133,7 @@ namespace Timus
 
         static int ConvertTime(string str)
         {
-            var split = str.Split(new [] {':', '.'});
+            var split = str.Split(new[] { ':', '.' });
             var mm = int.Parse(split[0]);
             var ss = int.Parse(split[1]);
             var d = int.Parse(split[2]);
@@ -73,15 +162,24 @@ namespace Timus
             var s = Math.Sqrt(2) / 2;
             foreach (var c in input)
             {
-                if (c == '2') y--;
-                if (c == '8') y++;
-                if (c == '4') x--;
-                if (c == '6') x++;
-                if (c == '1' || c == '7') x -= s;
-                if (c == '7' || c == '9') y += s;
-                if (c == '3' || c == '9') x += s;
-                if (c == '1' || c == '3') y -= s;
-                if (c == '0') break;
+                if (c == '2')
+                    y--;
+                if (c == '8')
+                    y++;
+                if (c == '4')
+                    x--;
+                if (c == '6')
+                    x++;
+                if (c == '1' || c == '7')
+                    x -= s;
+                if (c == '7' || c == '9')
+                    y += s;
+                if (c == '3' || c == '9')
+                    x += s;
+                if (c == '1' || c == '3')
+                    y -= s;
+                if (c == '0')
+                    break;
             }
             Console.Write($"{x:0.0000000000} " + $"{y:0.0000000000}");
         }
@@ -99,19 +197,50 @@ namespace Timus
             int j = 0;
             foreach (var c in input)
             {
-                if (c == '\n') break;
+                if (c == '\n')
+                    break;
 
-                if (c == '(') { _startSubject = true; j = 0; }
-                else if (c == '{') { _startObject = true; j = 0; }
-                else if (c == '[') { _startVerb = true; j = 0; }
+                if (c == '(')
+                {
+                    _startSubject = true;
+                    j = 0;
+                }
+                else if (c == '{')
+                {
+                    _startObject = true;
+                    j = 0;
+                }
+                else if (c == '[')
+                {
+                    _startVerb = true;
+                    j = 0;
+                }
 
-                else if (c == ')') { _startSubject = false; }
-                else if (c == '}') { _startObject = false; }
-                else if (c == ']') { _startVerb = false; }
+                else if (c == ')')
+                {
+                    _startSubject = false;
+                }
+                else if (c == '}')
+                {
+                    _startObject = false;
+                }
+                else if (c == ']')
+                {
+                    _startVerb = false;
+                }
 
-                else if (_startSubject) { _subject += char.ToLower(c); }
-                else if (_startObject) { _object += char.ToLower(c); }
-                else if (_startVerb) { _verb += char.ToLower(c); }
+                else if (_startSubject)
+                {
+                    _subject += char.ToLower(c);
+                }
+                else if (_startObject)
+                {
+                    _object += char.ToLower(c);
+                }
+                else if (_startVerb)
+                {
+                    _verb += char.ToLower(c);
+                }
 
                 else if (c == ',')
                 {
@@ -235,7 +364,8 @@ namespace Timus
                 var call = Console.ReadLine().Split(':');
                 var mm = int.Parse(call[0]);
                 var ss = int.Parse(call[1]);
-                if (mm == 0 && ss <= 6) continue;
+                if (mm == 0 && ss <= 6)
+                    continue;
                 time += mm;
                 if (ss != 0)
                     time++;
@@ -400,7 +530,8 @@ namespace Timus
             {
                 var money = Int32.Parse(Console.ReadLine());
                 n -= money;
-                if (n >= 0) continue;
+                if (n >= 0)
+                    continue;
                 Console.WriteLine("Free after {0} times.", i + 1);
                 return;
             }
@@ -513,7 +644,8 @@ namespace Timus
                     l2.Add(w);
                 else if (l == "Gryffindor")
                     l3.Add(w);
-                else l4.Add(w);
+                else
+                    l4.Add(w);
             }
 
             Console.WriteLine("Slytherin:");
@@ -605,7 +737,8 @@ namespace Timus
             {
                 for (int j = i; j < input.Length; j += k)
                 {
-                    if (j > input.Length) break;
+                    if (j > input.Length)
+                        break;
                     if (input[j] < 10)
                         Console.Write("   " + input[j]);
                     else if (input[j] < 100)
@@ -695,7 +828,8 @@ namespace Timus
             var res = new List<Tuple<int, int>> { Tuple.Create(list[0].start, list[0].finish) };
             for (int i = 1; i < n; i++)
             {
-                if (list[i].start < last) continue;
+                if (list[i].start < last)
+                    continue;
                 last = list[i].finish;
                 res.Add(Tuple.Create(list[i].start, list[i].finish));
             }
@@ -888,8 +1022,10 @@ namespace Timus
             var min = 1000;
             foreach (var c in coordinates)
             {
-                if (c < 0) max = Math.Max(c, max);
-                if (c > 0) min = Math.Min(c, min);
+                if (c < 0)
+                    max = Math.Max(c, max);
+                if (c > 0)
+                    min = Math.Min(c, min);
             }
 
 
@@ -897,9 +1033,11 @@ namespace Timus
             {
                 if (x > 0)
                     Console.WriteLine(x + " " + (x - 2 * max));
-                else Console.WriteLine(2 * min - x + " " + (-x));
+                else
+                    Console.WriteLine(2 * min - x + " " + (-x));
             }
-            else Console.WriteLine("Impossible");
+            else
+                Console.WriteLine("Impossible");
         }
 
         static void Milliard()
@@ -973,7 +1111,8 @@ namespace Timus
                 {
                     if (n % j == 0 && IsPrime(n % j) && IsPrime(j))
                     {
-                        p = j; q = n / j;
+                        p = j;
+                        q = n / j;
                         break;
                     }
                 }
@@ -1084,7 +1223,8 @@ namespace Timus
                         Console.WriteLine(y1 + " " + y2);
                     else if (y1 == y2)
                         Console.WriteLine(y1);
-                    else Console.WriteLine(y2 + " " + y1);
+                    else
+                        Console.WriteLine(y2 + " " + y1);
 
                 }
             }
@@ -1205,7 +1345,8 @@ namespace Timus
 
                 if (pIdempontent > qIdempontent)
                     Console.WriteLine("0 1 {0} {1}", qIdempontent, pIdempontent);
-                else Console.WriteLine("0 1 {0} {1}", pIdempontent, qIdempontent);
+                else
+                    Console.WriteLine("0 1 {0} {1}", pIdempontent, qIdempontent);
             }
 
         }
@@ -1302,7 +1443,8 @@ namespace Timus
             {
                 if (liters[i] > average)
                     Console.Write((int)(100.0 * (liters[i] - average) / drink + 0.0001) + " ");
-                else Console.Write("0 ");
+                else
+                    Console.Write("0 ");
             }
         }
         static void KeySubstrings()
@@ -1373,7 +1515,8 @@ namespace Timus
             int dif = KMP(t + t, s);
             if (dif == -1)
                 Console.WriteLine(-1);
-            else Console.WriteLine(dif);
+            else
+                Console.WriteLine(dif);
         }
         static int KMP(string s, string pattern)
         {
@@ -1400,7 +1543,8 @@ namespace Timus
             {
                 if (s[m] == pattern[n])
                 {
-                    m++; n++;
+                    m++;
+                    n++;
                 }
 
                 if (n == pattern.Length)
@@ -1411,7 +1555,8 @@ namespace Timus
                 {
                     if (n == 0)
                         m++;
-                    else n = patterns[n - 1];
+                    else
+                        n = patterns[n - 1];
                 }
 
             }
@@ -1533,11 +1678,13 @@ namespace Timus
             {
                 if (!Char.IsDigit(s[j]))
                     j--;
-                else n = n * 10 + (s[j] - '0');
+                else
+                    n = n * 10 + (s[j] - '0');
             }
             if (n == 0)
             {
-                n++; k++;
+                n++;
+                k++;
             }
             for (limit = 1; k < 12; k++, limit *= 10)
                 n *= 10;
@@ -1707,14 +1854,16 @@ namespace Timus
         }
         static void DontAskWomanAboutHerAge()
         {
-            int maxDig = 0; int res = 0;
+            int maxDig = 0;
+            int res = 0;
             var number = new char[1000001];
             var str = Console.ReadLine();
             for (int i = 0; i < str.Length; ++i)
             {
                 if (str[i] <= '9')
                     number[i] = (char)(str[i] - '0');
-                else number[i] = (char)(str[i] - 'A' + 10);
+                else
+                    number[i] = (char)(str[i] - 'A' + 10);
                 maxDig = Math.Max(maxDig, number[i]);
             }
 
@@ -1733,12 +1882,17 @@ namespace Timus
                         exp = (exp * k) % div;
                     }
                     if (rem == 0)
-                    { res = k; break; }
+                    {
+                        res = k;
+                        break;
+                    }
                 }
             }
 
-            if (res == 0) Console.WriteLine("No solution.");
-            else Console.WriteLine(res);
+            if (res == 0)
+                Console.WriteLine("No solution.");
+            else
+                Console.WriteLine(res);
         }
         static void Stripies()
         {
@@ -2143,7 +2297,8 @@ namespace Timus
                         mid = (l + h) / 2;
                         if (mid * mid < m)
                             l = mid + 1;
-                        else h = mid;
+                        else
+                            h = mid;
                     }
                     if (l * l == m)
                         res = BigInteger.Max(res, m);
@@ -2279,15 +2434,27 @@ namespace Timus
                 while (j < s.Length)
                 {
                     if (j + 5 < s.Length && s[j] == 'o' && s[j + 1] == 'u' && s[j + 2] == 't' && s[j + 3] == 'p' && s[j + 4] == 'u' && s[j + 5] == 't')
-                    { j += 6; continue; }
+                    {
+                        j += 6;
+                        continue;
+                    }
                     if (j + 4 < s.Length && (s[j] == 'p' && s[j + 1] == 'u' && s[j + 2] == 't' && s[j + 3] == 'o' && s[j + 4] == 'n') ||
                         (s[j] == 'i' && s[j + 1] == 'n' && s[j + 2] == 'p' && s[j + 3] == 'u' && s[j + 4] == 't'))
-                    { j += 5; continue; }
+                    {
+                        j += 5;
+                        continue;
+                    }
                     if (j + 3 < s.Length && (s[j] == 'o' && s[j + 1] == 'u' && s[j + 2] == 't') ||
                         (s[j] == 'o' && s[j + 1] == 'n' && s[j + 2] == 'e'))
-                    { j += 3; continue; }
+                    {
+                        j += 3;
+                        continue;
+                    }
                     if (j + 2 < s.Length && s[j] == 'i' && s[j + 1] == 'n')
-                    { j += 2; continue; }
+                    {
+                        j += 2;
+                        continue;
+                    }
                     break;
                 }
                 Console.WriteLine(j == s.Length ? "YES" : "NO");
@@ -2575,7 +2742,8 @@ namespace Timus
             var xy = Console.ReadLine().Split(' ').Select(Int64.Parse).ToArray();
             if (xy[0] < 0 || xy[1] < 0 || ((xy[0] + xy[1]) % 2 == 0))
                 Console.WriteLine(xy[0] + " " + xy[1]);
-            else Console.WriteLine(xy[1] + " " + xy[0]);
+            else
+                Console.WriteLine(xy[1] + " " + xy[0]);
         }
         static void P(long x, long y)
         {
@@ -2631,7 +2799,8 @@ namespace Timus
             {
                 if ((pos & 1) == 1)
                     Console.Write("-");
-                else Console.Write("+");
+                else
+                    Console.Write("+");
                 A(pos + 1, n);
             }
             Console.Write(")");
@@ -2729,7 +2898,8 @@ namespace Timus
             long N = 0;
             var is_prime = new Dictionary<long, bool>();
             var primes = new long[867933982];
-            for (long i = 1; i <= max; i++) is_prime[i] = true;
+            for (long i = 1; i <= max; i++)
+                is_prime[i] = true;
 
             for (long i = 2; i <= max; i++)
             {
@@ -2767,10 +2937,12 @@ namespace Timus
 
                 if (dictCount.ContainsKey(device))
                     ++dictCount[device];
-                else dictCount.Add(device, 1);
+                else
+                    dictCount.Add(device, 1);
                 if (dictPrice.ContainsKey(device))
                     dictPrice[device] = Math.Min(price, dictPrice[device]);
-                else dictPrice.Add(device, price);
+                else
+                    dictPrice.Add(device, price);
                 maxCount = Math.Max(maxCount, dictCount[device]);
             }
 
@@ -2853,7 +3025,8 @@ namespace Timus
                 ij[1]--;
                 if (ij[0] == 0)
                     Console.WriteLine(listSum[ij[1]]);
-                else Console.WriteLine(listSum[ij[1]] - listSum[ij[0] - 1]);
+                else
+                    Console.WriteLine(listSum[ij[1]] - listSum[ij[0] - 1]);
             }
         }
         static void DummyGuy()
@@ -2968,7 +3141,8 @@ namespace Timus
         }
         static void FindMembers(int i, int j, int[] members)
         {
-            if (i > j) return;
+            if (i > j)
+                return;
             if (i == j)
             {
                 Console.WriteLine(members[i]);
@@ -3009,8 +3183,10 @@ namespace Timus
             {
                 ans += s[i] - '0';
             }
-            if (ans % 3 == 0) Console.WriteLine("2");
-            else Console.WriteLine("1" + "\n" + ans % 3);
+            if (ans % 3 == 0)
+                Console.WriteLine("2");
+            else
+                Console.WriteLine("1" + "\n" + ans % 3);
         }
         static void BicoloredHorses()
         {
@@ -3135,7 +3311,8 @@ namespace Timus
             for (int i = 0; i < list.Count; i++)
             {
                 res = GCD(res, list[i]);
-                if (res == 1) return 1;
+                if (res == 1)
+                    return 1;
             }
             return res;
         }
@@ -3154,8 +3331,10 @@ namespace Timus
         }
         static int Nundik(int n)
         {
-            if (n == 1 || n == 2) return 1;
-            if (n == 3) return 2;
+            if (n == 1 || n == 2)
+                return 1;
+            if (n == 3)
+                return 2;
             else
             {
                 int[] res = new int[n + 1];
@@ -3315,7 +3494,8 @@ namespace Timus
                     }
 
                     var temp = MaxArraySum(Sum);
-                    if (temp > ans) ans = temp;
+                    if (temp > ans)
+                        ans = temp;
 
                 }
             }
@@ -3344,7 +3524,8 @@ namespace Timus
                 if (n % i == 0)
                 {
                     div.Add(i);
-                    if (i != n / i) div.Add(n / i);
+                    if (i != n / i)
+                        div.Add(n / i);
                 }
             }
 
@@ -3422,8 +3603,10 @@ namespace Timus
             }
 
             int res = sum1 - (2 * (n + 1)) - sum2;
-            if (res >= 0) Console.WriteLine(res);
-            else Console.WriteLine("Big Bang!");
+            if (res >= 0)
+                Console.WriteLine(res);
+            else
+                Console.WriteLine("Big Bang!");
         }
 
         static void PenaltyTime()
@@ -3505,7 +3688,8 @@ namespace Timus
             {
                 if (letter == 'A' || letter == 'D')
                     Console.WriteLine("window");
-                else Console.WriteLine("aisle");
+                else
+                    Console.WriteLine("aisle");
             }
             else if (num >= 3 && num <= 20)
             {
@@ -3513,7 +3697,8 @@ namespace Timus
                     Console.WriteLine("window");
                 else if (letter == 'B' || letter == 'C' || letter == 'D' || letter == 'E')
                     Console.WriteLine("aisle");
-                else Console.WriteLine("neither");
+                else
+                    Console.WriteLine("neither");
             }
             else
             {
@@ -3521,7 +3706,8 @@ namespace Timus
                     Console.WriteLine("window");
                 else if (letter == 'C' || letter == 'D' || letter == 'G' || letter == 'H')
                     Console.WriteLine("aisle");
-                else Console.WriteLine("neither");
+                else
+                    Console.WriteLine("neither");
             }
         }
         static void SandroBook()
@@ -3557,7 +3743,8 @@ namespace Timus
             {
                 if (k > Convert.ToInt32(arr[i]))
                     survived += k - Convert.ToInt32(arr[i]);
-                else unused += Convert.ToInt32(arr[i]) - k;
+                else
+                    unused += Convert.ToInt32(arr[i]) - k;
             }
 
             Console.WriteLine(unused + " " + survived);
@@ -3630,7 +3817,8 @@ namespace Timus
             for (int i = 0; i < str.Length; i++)
             {
                 x = str[i] - 'a';
-                if (i == 0) x = (x + 21) % 26;
+                if (i == 0)
+                    x = (x + 21) % 26;
                 else
                 {
                     y = str[i - 1] - 'a';
@@ -3687,9 +3875,11 @@ namespace Timus
                             loginUsers.Remove(user[1]);
                         }
 
-                        else Console.WriteLine("fail: already logged out");
+                        else
+                            Console.WriteLine("fail: already logged out");
                     }
-                    else Console.WriteLine("fail: no such user");
+                    else
+                        Console.WriteLine("fail: no such user");
                 }
             }
         }
@@ -3724,12 +3914,14 @@ namespace Timus
         }
         static BigInteger[,] Solve(BigInteger[,] matrix, long n, long mod)
         {
-            if (n == 1) return matrix;
+            if (n == 1)
+                return matrix;
             var temp = Solve(matrix, n / 2, mod);
             temp = Mul(temp, temp, mod);
             if (n % 2 == 0)
                 return temp;
-            else return Mul(temp, matrix, mod);
+            else
+                return Mul(temp, matrix, mod);
         }
 
         static BigInteger[,] Mul(BigInteger[,] left, BigInteger[,] right, long mod)
@@ -3807,7 +3999,8 @@ namespace Timus
                     c = 0;
                 }
             }
-            if (c > 0) b += c.ToString();
+            if (c > 0)
+                b += c.ToString();
 
             var str = res.ToCharArray();
             Array.Reverse(str);
@@ -3825,7 +4018,8 @@ namespace Timus
                 var wheel = Convert.ToInt32(Console.ReadLine());
                 if (dict.Keys.Contains(wheel))
                     dict[wheel]++;
-                else dict.Add(wheel, 1);
+                else
+                    dict.Add(wheel, 1);
             }
 
             foreach (var d in dict)
@@ -3889,7 +4083,8 @@ namespace Timus
         static void OverturnedNumbers()
         {
             int n = Convert.ToInt32(Console.ReadLine());
-            if (n > 4) Console.WriteLine("Glupenky Pierre");
+            if (n > 4)
+                Console.WriteLine("Glupenky Pierre");
             else
             {
                 string[] nums = { "11", "01", "60", "80" };
@@ -3954,7 +4149,11 @@ namespace Timus
             long first = Convert.ToInt64(IJ[0]);
             long end = Convert.ToInt64(IJ[1]);
 
-            if (first == 1) { Console.WriteLine(1); return; }
+            if (first == 1)
+            {
+                Console.WriteLine(1);
+                return;
+            }
 
             double min = Double.MaxValue;
             long res = 0;
@@ -3988,7 +4187,8 @@ namespace Timus
                 }
             }
 
-            if (sum == 1) return -1;
+            if (sum == 1)
+                return -1;
             return (double)sum / a;
         }
         static void BenBetsalel()
@@ -4010,7 +4210,8 @@ namespace Timus
                 ans++;
             }
 
-            if (ans < n) ans += (n - count + k - 1) / k;
+            if (ans < n)
+                ans += (n - count + k - 1) / k;
             Console.WriteLine(ans);
         }
         static void HistoryExam()
@@ -4070,8 +4271,14 @@ namespace Timus
             for (int i = 0; i < Convert.ToInt32(n); i++)
             {
                 var temp = Convert.ToInt64(Console.ReadLine());
-                if (temp == current) { ++count; }
-                else { --count; }
+                if (temp == current)
+                {
+                    ++count;
+                }
+                else
+                {
+                    --count;
+                }
 
                 if (count < 0)
                 {
@@ -4119,7 +4326,8 @@ namespace Timus
                 }
 
                 a += b;
-                if (c - d < a) break;
+                if (c - d < a)
+                    break;
                 c -= d;
             }
 
@@ -4241,8 +4449,10 @@ namespace Timus
             var n = Convert.ToInt64(input[0]);
             var m = Convert.ToInt64(input[1]);
 
-            if (n <= m) Console.WriteLine(2 * n - 2);
-            else Console.WriteLine(2 * m - 1);
+            if (n <= m)
+                Console.WriteLine(2 * n - 2);
+            else
+                Console.WriteLine(2 * m - 1);
         }
         static void DivorceOfTheSeven()
         {
@@ -4267,15 +4477,22 @@ namespace Timus
             for (int i = 0; i < exam; i++)
             {
                 var value = Console.ReadLine();
-                if (value == "5") five++;
-                if (value == "4") four++;
-                if (value == "3") three++;
+                if (value == "5")
+                    five++;
+                if (value == "4")
+                    four++;
+                if (value == "3")
+                    three++;
             }
 
-            if (three != 0) Console.WriteLine("None");
-            else if (four == 0) Console.WriteLine("Named");
-            else if (four > five) Console.WriteLine("Common");
-            else if (four <= five) Console.WriteLine("High");
+            if (three != 0)
+                Console.WriteLine("None");
+            else if (four == 0)
+                Console.WriteLine("Named");
+            else if (four > five)
+                Console.WriteLine("Common");
+            else if (four <= five)
+                Console.WriteLine("High");
         }
         static void AnotherDressRehearsal()
         {
@@ -4351,9 +4568,12 @@ namespace Timus
         static void Farm()
         {
             var n = Console.ReadLine();
-            if (n == "1") Console.WriteLine("1 2 3");
-            else if (n == "2") Console.WriteLine("3 4 5");
-            else Console.WriteLine(-1);
+            if (n == "1")
+                Console.WriteLine("1 2 3");
+            else if (n == "2")
+                Console.WriteLine("3 4 5");
+            else
+                Console.WriteLine(-1);
         }
         static void CrazyNotions()
         {
@@ -4417,26 +4637,34 @@ namespace Timus
 
                 if (file + 2 <= 'h')
                 {
-                    if (rank + 1 <= 8) ans++;
-                    if (rank - 1 >= 1) ans++;
+                    if (rank + 1 <= 8)
+                        ans++;
+                    if (rank - 1 >= 1)
+                        ans++;
                 }
 
                 if (file - 2 >= 'a')
                 {
-                    if (rank + 1 <= 8) ans++;
-                    if (rank - 1 >= 1) ans++;
+                    if (rank + 1 <= 8)
+                        ans++;
+                    if (rank - 1 >= 1)
+                        ans++;
                 }
 
                 if (rank + 2 <= 8)
                 {
-                    if (file + 1 <= 'h') ans++;
-                    if (file - 1 >= 'a') ans++;
+                    if (file + 1 <= 'h')
+                        ans++;
+                    if (file - 1 >= 'a')
+                        ans++;
                 }
 
                 if (rank - 2 >= 1)
                 {
-                    if (file + 1 <= 'h') ans++;
-                    if (file - 1 >= 'a') ans++;
+                    if (file + 1 <= 'h')
+                        ans++;
+                    if (file - 1 >= 'a')
+                        ans++;
                 }
 
                 Console.WriteLine(ans);
@@ -4531,13 +4759,19 @@ namespace Timus
             for (int i = 0; i < Convert.ToInt32(n); i++)
             {
                 var current = Console.ReadLine();
-                if (current == "Emperor Penguin") e++;
-                else if (current == "Macaroni Penguin") m++;
-                else l++;
+                if (current == "Emperor Penguin")
+                    e++;
+                else if (current == "Macaroni Penguin")
+                    m++;
+                else
+                    l++;
             }
-            if (e > m && e > l) Console.WriteLine("Emperor Penguin");
-            else if (m > e && m > l) Console.WriteLine("Macaroni Penguin");
-            else Console.WriteLine("Little Penguin");
+            if (e > m && e > l)
+                Console.WriteLine("Emperor Penguin");
+            else if (m > e && m > l)
+                Console.WriteLine("Macaroni Penguin");
+            else
+                Console.WriteLine("Little Penguin");
         }
         static void TeamWork(int[] arr)
         {
@@ -4545,7 +4779,8 @@ namespace Timus
             int j = 1;
             for (int i = 1; i < arr.Length; i++)
             {
-                if (arr[i] == temp) j++;
+                if (arr[i] == temp)
+                    j++;
                 else
                 {
                     Console.Write(j + " " + arr[i - 1] + " ");
@@ -4566,7 +4801,8 @@ namespace Timus
                     ans += 1;
                 else if (c == 'b' || c == 'e' || c == 'h' || c == 'k' || c == 'n' || c == 'q' || c == 't' || c == 'w' || c == 'z' || c == ',')
                     ans += 2;
-                else ans += 3;
+                else
+                    ans += 3;
             }
 
             return ans;
@@ -4653,9 +4889,12 @@ namespace Timus
                     j++;
                     k++;
                 }
-                else if (arrOne[i] < arrTwo[j]) i++;
-                else if (arrTwo[j] < arrThree[k]) j++;
-                else k++;
+                else if (arrOne[i] < arrTwo[j])
+                    i++;
+                else if (arrTwo[j] < arrThree[k])
+                    j++;
+                else
+                    k++;
             }
 
             Console.WriteLine(res);
@@ -4745,7 +4984,8 @@ namespace Timus
         }
         static long Factorials(int n, int count)
         {
-            if (n <= count) return n;
+            if (n <= count)
+                return n;
 
             long res;
 
@@ -4801,7 +5041,8 @@ namespace Timus
         }
         static long BinPow(long value, long exp)
         {
-            if (exp == 0) return 1;
+            if (exp == 0)
+                return 1;
             if ((exp & 1) == 0)
             {
                 return (BinPow(value, exp >> 1) * BinPow(value, exp >> 1));
@@ -4813,15 +5054,24 @@ namespace Timus
         }
         static void LostinLocalization(int x)
         {
-            if (x < 5) Console.WriteLine("few");
-            else if (x <= 9) Console.WriteLine("several");
-            else if (x <= 19) Console.WriteLine("pack");
-            else if (x <= 49) Console.WriteLine("lots");
-            else if (x <= 99) Console.WriteLine("horde");
-            else if (x <= 249) Console.WriteLine("throng");
-            else if (x <= 499) Console.WriteLine("swarm");
-            else if (x <= 999) Console.WriteLine("zounds");
-            else Console.WriteLine("legion");
+            if (x < 5)
+                Console.WriteLine("few");
+            else if (x <= 9)
+                Console.WriteLine("several");
+            else if (x <= 19)
+                Console.WriteLine("pack");
+            else if (x <= 49)
+                Console.WriteLine("lots");
+            else if (x <= 99)
+                Console.WriteLine("horde");
+            else if (x <= 249)
+                Console.WriteLine("throng");
+            else if (x <= 499)
+                Console.WriteLine("swarm");
+            else if (x <= 999)
+                Console.WriteLine("zounds");
+            else
+                Console.WriteLine("legion");
         }
         static void ReverseRoot(string input)
         {
