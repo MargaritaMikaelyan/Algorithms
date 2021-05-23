@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace Leetcode
 {
@@ -16,6 +17,24 @@ namespace Leetcode
             //TwoSum(new[] { 3, 3 }, 6);
             //TwoSumSecond(new[] {2, 7, 11, 15}, 9);
             //LengthOfLongestSubstring("pwwkew");
+            //Convert("AB", 1);
+        }
+
+        public static string Convert(string s, int numRows)
+        {
+            if (numRows == 1) return s;
+            var matrix = new string[Math.Min(s.Length, numRows)];
+            var row = 0;
+            var isChangedRow = false;
+            foreach (var c in s)
+            {
+                matrix[row] += c;
+                if (row == 0 || row == numRows - 1)
+                    isChangedRow = !isChangedRow;
+                row += isChangedRow ? 1 : -1;
+            }
+
+            return matrix.Aggregate("", (result, current) => result + current);
         }
 
         public static int LengthOfLongestSubstring(string s)
