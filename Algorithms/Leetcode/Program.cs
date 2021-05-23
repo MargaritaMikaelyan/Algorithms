@@ -13,6 +13,98 @@ namespace Leetcode
             //Console.WriteLine(AddTwoNumbers(n1, n2));
             //Console.WriteLine(GetSum(-16, -115));
             //LetterCasePermutation("a1b2");
+            //TwoSum(new[] { 3, 3 }, 6);
+            //TwoSumSecond(new[] {2, 7, 11, 15}, 9);
+            //LengthOfLongestSubstring("pwwkew");
+        }
+
+        public static int LengthOfLongestSubstring(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return 0;
+
+            var charsAndIndices = new Dictionary<char, int>();
+            var startIndex = 0;
+            var longLength = 0;
+            for (int endIndex = 0; endIndex < s.Length; endIndex++)
+            {
+                if (charsAndIndices.ContainsKey(s[endIndex]))
+                {
+                    startIndex = Math.Max(startIndex, charsAndIndices[s[endIndex]] + 1);
+                }
+
+                charsAndIndices[s[endIndex]] = endIndex;
+                longLength = Math.Max(longLength, endIndex - startIndex + 1);
+            }
+
+            return longLength;
+        }
+
+        public int[] twoSum(int[] numbers, int target)
+        {
+            int l = 0, h = numbers.Length - 1, sum;
+
+            while ((sum = numbers[l] + numbers[h]) != target && h != l)
+            {
+                if (sum > target)
+                    h = BinarySearch(numbers, l + 1, h - 1, target - numbers[l]);
+                else if (sum < target)
+                    l = BinarySearch(numbers, l + 1, h - 1, target - numbers[h]);
+            }
+            return new [] { l + 1, h + 1 };
+        }
+
+        private static int BinarySearch(int[] numbers, int low, int high, int target)
+        {
+            while (low < high)
+            {
+                var mid = (low + high) / 2;
+                if (target == numbers[mid])
+                    return mid;
+                else if (target < numbers[mid])
+                    high = mid;
+                else
+                    low = mid + 1;
+            }
+
+            return high;
+        }
+
+        public static int[] TwoSumSecond(int[] nums, int target)
+        {
+            var result = new int[2];
+            for (int i = 0; i < nums.Length; i++)
+            {
+                for (int j = i + 1; j < nums.Length; j++)
+                {
+                    if (nums[i] + nums[j] == target)
+                    {
+                        result[0] = i + 1;
+                        result[1] = j + 1;
+                        return result;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public static int[] TwoSum(int[] nums, int target)
+        {
+            var result = new int[2];
+            for (int i = 0; i < nums.Length; i++)
+            {
+                for (int j = i + 1; j < nums.Length; j++)
+                {
+                    if (nums[i] + nums[j] == target)
+                    {
+                        result[0] = i;
+                        result[1] = j;
+                        return result;
+                    }
+                }
+            }
+
+            return result;
         }
 
         // "a1b24c"
