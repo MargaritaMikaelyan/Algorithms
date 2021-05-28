@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace Leetcode
@@ -20,6 +21,73 @@ namespace Leetcode
             //LengthOfLongestSubstring("pwwkew");
             //Convert("AB", 1);
             //Console.WriteLine(MyAtoi(" -"));
+            //Reverse(-125);
+            //ThreeSum(new[] { -2, 0, 0, 2, 2 });
+        }
+
+        public static IList<IList<int>> ThreeSum(int[] nums)
+        {
+            var numbersList = new List<IList<int>>();
+            Array.Sort(nums);
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (i == 0 || nums[i] > nums[i - 1])
+                    ThreeSumRec(nums, numbersList, i, i + 1, nums.Length - 1);
+            }
+            return numbersList;
+        }
+
+        public static void ThreeSumRec(int[] nums, List<IList<int>> result, int i, int start, int end)
+        {
+            if (start >= end)
+                return;
+
+            if (nums[i] + nums[start] + nums[end] == 0)
+            {
+                result.Add(new List<int> { nums[i], nums[start], nums[end] });
+                start++;
+                end--;
+                while (start < end && nums[start] == nums[start - 1])
+                    start++;
+                while (start < end && nums[end] == nums[end + 1])
+                    end--;
+                ThreeSumRec(nums, result, i, start, end);
+            }
+            else if (nums[i] + nums[start] + nums[end] < 0)
+            {
+                ThreeSumRec(nums, result, i, start + 1, end);
+            }
+            else
+            {
+                ThreeSumRec(nums, result, i, start, end - 1);
+            }
+        }
+        public static int Reverse(int x)
+        {
+            if (x >= 0 && x <= 9)
+                return x;
+            var number = x.ToString();
+            var s = "";
+            var end = 0;
+            if (number[0] == '-' || number[0] == '+')
+            {
+                s += number[0];
+                end = 1;
+            }
+
+            for (int i = number.Length - 1; i >= end; i--)
+            {
+                s += number[i];
+            }
+
+            if (int.TryParse(s, out var result))
+            {
+                return result;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public static int MyAtoi(string str)
@@ -31,14 +99,16 @@ namespace Leetcode
 
             if ((str[0] == '+' || str[0] == '-')
                 && (str.Length > 1 && !char.IsDigit(str[1])
-                || str.Length == 1)) return 0;
+                || str.Length == 1))
+                return 0;
 
             var number = new StringBuilder(str[0].ToString());
             for (var i = 1; i < str.Length; i++)
             {
                 if (char.IsDigit(str[i]))
                     number.Append(str[i]);
-                else break;
+                else
+                    break;
             }
 
             if (int.TryParse(number.ToString(), out var result))
@@ -49,7 +119,7 @@ namespace Leetcode
             {
                 return int.MinValue;
             }
-            else 
+            else
             {
                 return int.MaxValue;
             }
