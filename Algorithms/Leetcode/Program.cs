@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace Leetcode
 {
@@ -18,11 +19,46 @@ namespace Leetcode
             //TwoSumSecond(new[] {2, 7, 11, 15}, 9);
             //LengthOfLongestSubstring("pwwkew");
             //Convert("AB", 1);
+            //Console.WriteLine(MyAtoi(" -"));
+        }
+
+        public static int MyAtoi(string str)
+        {
+            str = str.Trim();
+            if (string.IsNullOrEmpty(str) ||
+                !(char.IsDigit(str[0]) || str[0] == '+' || str[0] == '-'))
+                return 0;
+
+            if ((str[0] == '+' || str[0] == '-')
+                && (str.Length > 1 && !char.IsDigit(str[1])
+                || str.Length == 1)) return 0;
+
+            var number = new StringBuilder(str[0].ToString());
+            for (var i = 1; i < str.Length; i++)
+            {
+                if (char.IsDigit(str[i]))
+                    number.Append(str[i]);
+                else break;
+            }
+
+            if (int.TryParse(number.ToString(), out var result))
+            {
+                return result;
+            }
+            else if (number[0] == '-')
+            {
+                return int.MinValue;
+            }
+            else 
+            {
+                return int.MaxValue;
+            }
         }
 
         public static string Convert(string s, int numRows)
         {
-            if (numRows == 1) return s;
+            if (numRows == 1)
+                return s;
             var matrix = new string[Math.Min(s.Length, numRows)];
             var row = 0;
             var isChangedRow = false;
@@ -39,7 +75,8 @@ namespace Leetcode
 
         public static int LengthOfLongestSubstring(string s)
         {
-            if (string.IsNullOrEmpty(s)) return 0;
+            if (string.IsNullOrEmpty(s))
+                return 0;
 
             var charsAndIndices = new Dictionary<char, int>();
             var startIndex = 0;
@@ -69,7 +106,7 @@ namespace Leetcode
                 else if (sum < target)
                     l = BinarySearch(numbers, l + 1, h - 1, target - numbers[h]);
             }
-            return new [] { l + 1, h + 1 };
+            return new[] { l + 1, h + 1 };
         }
 
         private static int BinarySearch(int[] numbers, int low, int high, int target)
