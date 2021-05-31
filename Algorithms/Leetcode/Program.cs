@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace Leetcode
@@ -23,6 +22,89 @@ namespace Leetcode
             //Console.WriteLine(MyAtoi(" -"));
             //Reverse(-125);
             //ThreeSum(new[] { -2, 0, 0, 2, 2 });
+
+            //var n1 = new ListNode(1, new ListNode(2, new ListNode(4)));
+            //var n2 = new ListNode(1, new ListNode(3, new ListNode(4)));
+            //MergeTwoLists(n1, n2);
+            //var d = MergeTwoListsRec(n1, n2);
+        }
+        public static ListNode MergeTwoLists(ListNode l1, ListNode l2)
+        {
+            var merged = new ListNode();
+            var current = merged;
+            if (l2 == null && l1 == null)
+                return null;
+            if (l1 == null)
+                return l2;
+            if (l2 == null)
+                return l1;
+            while (l1 != null || l2 != null)
+            {
+                if (l1 != null && l2 != null)
+                {
+                    if (l1.val < l2.val)
+                    {
+                        current.val = l1.val;
+                        if (l1.next != null || l2 != null)
+                        {
+                            current.next = new ListNode();
+                            current = current.next;
+                        }
+                        l1 = l1.next;
+                    }
+                    else
+                    {
+                        current.val = l2.val;
+                        if (l2.next != null || l1 != null)
+                        {
+                            current.next = new ListNode();
+                            current = current.next;
+                        }
+                        l2 = l2.next;
+                    }
+                }
+                else if (l1 != null)
+                {
+                    current.val = l1.val;
+                    if (l1.next != null)
+                    {
+                        current.next = new ListNode();
+                        current = current.next;
+                    }
+                    l1 = l1.next;
+
+                }
+                else if (l2 != null)
+                {
+                    current.val = l2.val;
+                    if (l2.next != null)
+                    {
+                        current.next = new ListNode();
+                        current = current.next;
+                    }
+                    l2 = l2.next;
+
+                }
+            }
+
+            return merged;
+        }
+        
+        public static ListNode MergeTwoListsRec(ListNode l1, ListNode l2)
+        {
+            if (l1 == null)
+                return l2;
+            if (l2 == null)
+                return l1;
+
+            if (l1.val < l2.val)
+            {
+                l1.next = MergeTwoListsRec(l1.next, l2);
+                return l1;
+            }
+
+            l2.next = MergeTwoListsRec(l1, l2.next);
+            return l2;
         }
 
         public static IList<IList<int>> ThreeSum(int[] nums)
