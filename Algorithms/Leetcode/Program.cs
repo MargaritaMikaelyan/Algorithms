@@ -27,7 +27,86 @@ namespace Leetcode
             //var n2 = new ListNode(1, new ListNode(3, new ListNode(4)));
             //MergeTwoLists(n1, n2);
             //var d = MergeTwoListsRec(n1, n2);
+
+            //Console.WriteLine(IntToRoman(3));
+            //Console.WriteLine(IntToRoman(4));
+            //Console.WriteLine(IntToRoman(9));
+            //Console.WriteLine(IntToRoman(58));
+            //Console.WriteLine(IntToRoman(1994));
         }
+
+        public static string IntToRoman(int num)
+        {
+            var res = new StringBuilder();
+            while(num >= 1000)
+            {
+                res.Append("M");
+                num -= 1000;
+            }
+            while(num >= 900)
+            {
+                res.Append("CM");
+                num -= 900;
+            }
+            while(num >= 500)
+            {
+                res.Append("D");
+                num -= 500;
+            }
+            while(num >= 400)
+            {
+                res.Append("CD");
+                num -= 400;
+            }
+            while(num >= 100)
+            {
+                res.Append("C");
+                num -= 100;
+            }
+            while(num >= 90)
+            {
+                res.Append("XC");
+                num -= 90;
+            }
+            while(num >= 50)
+            {
+                res.Append("L");
+                num -= 50;
+            }
+            while(num >= 40)
+            {
+                res.Append("XL");
+                num -= 40;
+            }
+            while(num >= 10)
+            {
+                res.Append("X");
+                num -= 10;
+            }
+            while(num >= 9)
+            {
+                res.Append("IX");
+                num -= 9;
+            }
+            while(num >= 5)
+            {
+                res.Append("V");
+                num -= 5;
+            }
+            while(num >= 4)
+            {
+                res.Append("IV");
+                num -= 4;
+            }
+            while(num >= 1)
+            {
+                res.Append("I");
+                num -= 1;
+            }
+
+            return res.ToString();
+        }
+
         public static ListNode MergeTwoLists(ListNode l1, ListNode l2)
         {
             var merged = new ListNode();
