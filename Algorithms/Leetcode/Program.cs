@@ -33,72 +33,131 @@ namespace Leetcode
             //Console.WriteLine(IntToRoman(9));
             //Console.WriteLine(IntToRoman(58));
             //Console.WriteLine(IntToRoman(1994));
+            //Console.WriteLine(NumPairsDivisibleBy60(new int[] { 30, 20, 150, 100, 40 }));
+            //Console.WriteLine(ThreeSumClosest(new int[] { 1,1,1,0 }, -100));
+           // Console.WriteLine(MaxArea(new int[] { 1, 8, 6, 2, 5, 4, 8, 3, 7 }));
+        }
+
+        public static int MaxArea(int[] height)
+        {
+            var res = 0;
+            var start = 0;
+            var end = height.Length - 1;
+            while (start < end)
+            {
+                var min = Math.Min(height[start], height[end]);
+                var current = (end - start) * min;
+                res = Math.Max(res, current);
+                while (height[start] <= min && start < end) start++;
+                while (height[end] <= min && start < end) end--;
+            }
+            return res;
+        }
+
+        public static int ThreeSumClosest(int[] nums, int target)
+        {
+            Array.Sort(nums);
+            var closestSum = nums[0] + nums[1] + nums[2];
+
+            for (int i = 0; i < nums.Length - 2; i++)
+            {
+                var second = i + 1;
+                var third = nums.Length - 1;
+                while (second < third)
+                {
+                    var currentSum = nums[i] + nums[second] + nums[third];
+                    if (Math.Abs(target - currentSum) < Math.Abs(target - closestSum))
+                        closestSum = currentSum;
+                    if (currentSum > target)
+                        third--;
+                    else
+                        second++;
+                }
+            }
+            return closestSum;
+        }
+
+        public static int NumPairsDivisibleBy60(int[] time)
+        {
+            if (time.Length == 1) return 0;
+            if (time.Length == 2) return (time[0] + time[1]) % 60 == 0 ? 1 : 0;
+            var result = 0;
+            var arr = new int[60];
+            for (int i = 0; i < time.Length; i++)
+            {
+                var x = time[i] % 60;
+                var y = (60 - x) % 60;
+
+                result += arr[y];
+                arr[x]++;
+            }
+            return result;
         }
 
         public static string IntToRoman(int num)
         {
             var res = new StringBuilder();
-            while(num >= 1000)
+            while (num >= 1000)
             {
                 res.Append("M");
                 num -= 1000;
             }
-            while(num >= 900)
+            while (num >= 900)
             {
                 res.Append("CM");
                 num -= 900;
             }
-            while(num >= 500)
+            while (num >= 500)
             {
                 res.Append("D");
                 num -= 500;
             }
-            while(num >= 400)
+            while (num >= 400)
             {
                 res.Append("CD");
                 num -= 400;
             }
-            while(num >= 100)
+            while (num >= 100)
             {
                 res.Append("C");
                 num -= 100;
             }
-            while(num >= 90)
+            while (num >= 90)
             {
                 res.Append("XC");
                 num -= 90;
             }
-            while(num >= 50)
+            while (num >= 50)
             {
                 res.Append("L");
                 num -= 50;
             }
-            while(num >= 40)
+            while (num >= 40)
             {
                 res.Append("XL");
                 num -= 40;
             }
-            while(num >= 10)
+            while (num >= 10)
             {
                 res.Append("X");
                 num -= 10;
             }
-            while(num >= 9)
+            while (num >= 9)
             {
                 res.Append("IX");
                 num -= 9;
             }
-            while(num >= 5)
+            while (num >= 5)
             {
                 res.Append("V");
                 num -= 5;
             }
-            while(num >= 4)
+            while (num >= 4)
             {
                 res.Append("IV");
                 num -= 4;
             }
-            while(num >= 1)
+            while (num >= 1)
             {
                 res.Append("I");
                 num -= 1;
@@ -168,7 +227,7 @@ namespace Leetcode
 
             return merged;
         }
-        
+
         public static ListNode MergeTwoListsRec(ListNode l1, ListNode l2)
         {
             if (l1 == null)
