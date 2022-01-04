@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 
@@ -35,7 +34,199 @@ namespace Leetcode
             //Console.WriteLine(IntToRoman(1994));
             //Console.WriteLine(NumPairsDivisibleBy60(new int[] { 30, 20, 150, 100, 40 }));
             //Console.WriteLine(ThreeSumClosest(new int[] { 1,1,1,0 }, -100));
-           // Console.WriteLine(MaxArea(new int[] { 1, 8, 6, 2, 5, 4, 8, 3, 7 }));
+            // Console.WriteLine(MaxArea(new int[] { 1, 8, 6, 2, 5, 4, 8, 3, 7 }));
+            //var n1 = new ListNode(1);
+            //var removed = RemoveNthFromEnd(n1, 1);
+            //Console.WriteLine(removed);
+            //var r = SearchRange(new int[] { 5}, 5);
+            //Console.WriteLine($"{r[0]}, {r[1]}");
+            // Console.WriteLine(Divide(-2147483648, -1));
+            // Console.WriteLine(CountAndSay(10));
+            //Console.WriteLine(string.Join(" ", AvoidFlood(new[] { 1, 0, 2, 0, 3, 0, 2, 0, 0, 0, 1, 2, 3 })));
+
+            // Console.WriteLine(CountPairs(new[] { 2160, 1936, 3, 29, 27, 5, 2503, 1593, 2, 0, 16, 0, 3860, 28908, 6, 2, 15, 49, 6246, 1946, 23, 105, 7996, 196, 0, 2, 55, 457, 5, 3, 924, 7268, 16, 48, 4, 0, 12, 116, 2628, 1468 }));
+           // Console.WriteLine(CountPairs(new[] { 1, 1, 1, 3, 3, 3, 7 }));
+        }
+
+        public static int CountPairs(int[] deliciousness)
+        {
+            long mod = (long)Math.Pow(10, 9) + 7;
+            var res = 0L;
+            var dict = new Dictionary<long, long>();
+            for (int i = 0; i < deliciousness.Length; i++)
+            {
+                if (dict.ContainsKey(deliciousness[i]))
+                    dict[deliciousness[i]]++;
+                else
+                    dict.Add(deliciousness[i], 1);
+            }
+            for (int i = 0; i < 22; i++)
+            {
+                var powerTwo = 1 << i;
+
+                foreach (var current in dict.Keys)
+                {
+                    var second = powerTwo - current;
+                    if (dict.ContainsKey(second))
+                    {
+                        if (second == current)
+                        {
+                            res += dict[current] * (dict[current] - 1);
+                        }
+                        else
+                        {
+                            res += dict[second] * dict[current];
+                        }
+                    }
+                }
+            }
+            return (int)(res / 2 % mod);
+        }
+
+        public static bool IsPowerOfTwo(long x)
+        {
+            return x != 0 && (x & (x - 1)) == 0;
+        }
+
+        public static int[] AvoidFlood(int[] rains)
+        {
+            var dry = new List<int>();
+            var full = new Dictionary<int, int>();
+            var ans = new int[rains.Length];
+
+            for (int i = 0; i < rains.Length; i++)
+            {
+                if (rains[i] == 0)
+                {
+                    dry.Add(i);
+                    ans[i] = 1;
+                }
+                else
+                {
+                    if (full.ContainsKey(rains[i]))
+                    {
+                        var last = full[rains[i]];
+                        var canDryLake = false;
+                        foreach (var d in dry)
+                        {
+                            if (d > last)
+                            {
+                                ans[d] = rains[i];
+                                dry.Remove(d);
+                                canDryLake = true;
+                                break;
+                            }
+                        }
+
+                        if (!canDryLake)
+                        {
+                            return new int[] { };
+                        }
+                        full[rains[i]] = i;
+                    }
+                    else
+                    {
+                        full.Add(rains[i], i);
+                    }
+                    ans[i] = -1;
+                }
+            }
+            return ans;
+        }
+
+        public static string CountAndSay(int n)
+        {
+            if (n == 1) return "1";
+            var str = CountAndSay(n - 1);
+            var res = new StringBuilder();
+            var currentDigit = str[0];
+            var currentDigitCount = 1;
+            for (int i = 0; i < str.Length - 1; i++)
+            {
+                if (str[i] == str[i + 1])
+                    currentDigitCount++;
+                else
+                {
+                    res.Append($"{currentDigitCount}{currentDigit}");
+                    currentDigitCount = 1;
+                    currentDigit = str[i + 1];
+                }
+            }
+            res.Append($"{currentDigitCount}{currentDigit}");
+            return res.ToString();
+        }
+        public static int Divide(int dividend, int divisor)
+        {
+            var quotient = 0;
+            var sign = (dividend < 0) ^ (divisor < 0) ? -1 : 1;
+            long absDividend = Math.Abs((long)dividend);
+            long absDivisor = Math.Abs((long)divisor);
+            var res = absDividend * sign;
+            if (absDivisor == 1) return res >= int.MaxValue ? int.MaxValue : (res <= int.MinValue ? int.MinValue : (int)res);
+            while (absDividend >= absDivisor)
+            {
+                absDividend -= absDivisor;
+                quotient++;
+            }
+            res = sign * quotient;
+            return res >= int.MaxValue ? int.MaxValue : (res <= int.MinValue ? int.MinValue : (int)res);
+        }
+
+        public static int[] SearchRange(int[] nums, int target)
+        {
+            var result = new[] { -1, -1 };
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] > target) break;
+                if (i == 0 && nums[i] == target)
+                    result[0] = 0;
+                else if (nums[i] == target && i > 0 && nums[i - 1] != nums[i])
+                    result[0] = i;
+
+                if (i == nums.Length - 1 && nums[i] == target)
+                {
+                    result[1] = nums.Length - 1;
+                }
+                else if (nums[i] == target && i < nums.Length - 1 && nums[i + 1] != nums[i])
+                {
+                    result[1] = i;
+                    break;
+                }
+            }
+            return result;
+        }
+
+        public static ListNode RemoveNthFromEnd(ListNode head, int n)
+        {
+
+            ListNode result = new ListNode();
+            ListNode current = result;
+            var length = 0;
+            var cnt = 0;
+            while (head != null)
+            {
+                length++;
+                current.val = head.val;
+                if (head.next != null) current.next = new ListNode();
+                current = current.next;
+                head = head.next;
+
+            }
+            if (length == n) return result.next;
+            current = result;
+            while (current != null)
+            {
+                cnt++;
+                if (length - n == cnt)
+                {
+                    current.next = current.next?.next;
+                }
+                else
+                {
+                    current = current.next;
+                }
+            }
+            return result;
         }
 
         public static int MaxArea(int[] height)
