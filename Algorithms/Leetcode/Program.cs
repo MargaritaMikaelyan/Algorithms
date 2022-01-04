@@ -9,6 +9,7 @@ namespace Leetcode
     {
         static void Main(string[] args)
         {
+            #region Examples
             //var n1 = new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(9)))))));
             //var n2 = new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(9))));
             //Console.WriteLine(AddTwoNumbers(n1, n2));
@@ -45,7 +46,84 @@ namespace Leetcode
             //Console.WriteLine(string.Join(" ", AvoidFlood(new[] { 1, 0, 2, 0, 3, 0, 2, 0, 0, 0, 1, 2, 3 })));
 
             // Console.WriteLine(CountPairs(new[] { 2160, 1936, 3, 29, 27, 5, 2503, 1593, 2, 0, 16, 0, 3860, 28908, 6, 2, 15, 49, 6246, 1946, 23, 105, 7996, 196, 0, 2, 55, 457, 5, 3, 924, 7268, 16, 48, 4, 0, 12, 116, 2628, 1468 }));
-           // Console.WriteLine(CountPairs(new[] { 1, 1, 1, 3, 3, 3, 7 }));
+            // Console.WriteLine(CountPairs(new[] { 1, 1, 1, 3, 3, 3, 7 }));
+
+            //var n1 = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
+            //Console.WriteLine(SwapNodes(n1, 2));
+            #endregion
+        }
+
+        public static ListNode SwapNodes(ListNode head, int k)
+        {
+            ListNode temp = head;
+            var length = 0;
+            while (temp != null)
+            {
+                length++;
+                temp = temp.next;
+            }
+            if (length < k) return null;
+            if (2 * k - 1 == length) return head;
+
+            var i = 1;
+            ListNode firstNode = head, firstPrev = null;
+            while (i < k)
+            {
+                i++;
+                firstPrev = firstNode;
+                firstNode = firstNode.next;
+            }
+
+            i = 1;
+            ListNode secondNode = head, secondPrev = null;
+            while (i < length - k + 1)
+            {
+                i++;
+                secondPrev = secondNode;
+                secondNode = secondNode.next;
+            }
+
+            if (firstPrev != null)
+                firstPrev.next = secondNode;
+
+            if (secondPrev != null)
+                secondPrev.next = firstNode;
+
+            temp = firstNode.next;
+            firstNode.next = secondNode.next;
+            secondNode.next = temp;
+
+            if (k == 1) head = secondNode;
+            if (k == length) head = firstNode;
+
+            return head;
+        }
+
+        public static ListNode SwapPairs(ListNode head)
+        {
+            if (head == null) return null;
+            var swapped = new ListNode();
+            var current = swapped;
+
+            while (head != null)
+            {
+                if (head.next != null)
+                {
+                    current.val = head.next.val;
+                    current.next = new ListNode(head.val);
+                }
+                else
+                {
+                    current.val = head.val;
+                }
+
+                if (head.next.next != null)
+                    current.next.next = new ListNode();
+
+                head = head.next.next;
+                current = current.next.next;
+            }
+            return swapped;
         }
 
         public static int CountPairs(int[] deliciousness)
@@ -198,7 +276,6 @@ namespace Leetcode
 
         public static ListNode RemoveNthFromEnd(ListNode head, int n)
         {
-
             ListNode result = new ListNode();
             ListNode current = result;
             var length = 0;
