@@ -5,6 +5,38 @@ using System.Text;
 
 namespace Leetcode
 {
+    public class TreeNode
+    {
+        public int val;
+        public TreeNode left;
+        public TreeNode right;
+        public TreeNode(int val = 0, TreeNode left = null, TreeNode right = null)
+        {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    public class Node
+    {
+        public int val;
+        public IList<Node> children;
+
+        public Node() { }
+
+        public Node(int _val)
+        {
+            val = _val;
+            children = new List<Node>();
+        }
+
+        public Node(int _val, IList<Node> _children)
+        {
+            val = _val;
+            children = _children;
+        }
+    }
     class Program
     {
         static void Main(string[] args)
@@ -50,7 +82,339 @@ namespace Leetcode
 
             //var n1 = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
             //Console.WriteLine(SwapNodes(n1, 2));
+            //SortArrayByParity(new int[] { 3, 1, 2, 4 });
+            //KnightProbability(8, 30, 6, 4);
+            //Console.WriteLine(IsPalindrome(1000000001));
+            //AddStrings("9", "99");
+
+            //Node root = new Node(1);
+
+            //root.children.Add(new Node(3));
+            //root.children.Add(new Node(2));
+            //root.children.Add(new Node(4));
+
+            //root.children[0].children.Add(new Node(5));
+            //root.children[0].children.Add(new Node(6));            
+            //Console.WriteLine(string.Join(" ", Postorder(root)));
+            //Console.WriteLine(SingleNumber(new int[] { 1, 2, 1, 17, 2, 5 }));           
+            //var treeNode = new TreeNode(5, new TreeNode(3, new TreeNode(2), new TreeNode(4)),
+            //    new TreeNode(6, null, new TreeNode(6, null, new TreeNode(7))));
+            //FindTarget(treeNode, 100);
+            //LetterCombinations("234");
+          //  Trap(new int[] { 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1 });
             #endregion
+
+        }
+
+        public static ListNode CopyRandomList(ListNode head)
+        {
+            if (head == null) return null;
+
+            var result = new ListNode(head.val);
+            var current = result;
+            var temp = head;
+
+            var dict = new Dictionary<ListNode, ListNode>()
+            {
+                { temp, current }
+            };
+
+            while (temp.next != null)
+            {
+                current.next = new ListNode(temp.next.val);
+                dict.Add(temp.next, current.next);
+
+                temp = temp.next;
+                current = current.next;
+            }
+
+            temp = head;
+            while (temp != null)
+            {
+                dict[temp].random = temp.random == null ? null : dict[temp.random];
+                temp = temp.next;
+            }
+            return result;
+        }
+
+        public static int Trap(int[] height)
+        {
+            var res = 0;
+            var left = new int[height.Length];
+            left[0] = height[0];
+
+            var right = new int[height.Length];
+            right[height.Length - 1] = height[height.Length - 1];
+
+            for (int j = 1; j < height.Length; j++)
+                left[j] = Math.Max(height[j], left[j - 1]);
+
+            for (int j = height.Length - 2; j >= 0; j--)
+                right[j] = Math.Max(height[j], right[j + 1]);
+
+            for (int i = 0; i < height.Length; i++)
+                res += Math.Min(left[i], right[i]) - height[i];
+
+            return res;
+        }
+
+        public static IList<string> LetterCombinations(string digits)
+        {
+            if (digits == string.Empty) return new List<string>();
+            var dict = new Dictionary<int, List<string>>
+            {
+                { 2, new List<string>{"a", "b","c"} },
+                { 3, new List<string>{"d", "e","f"} },
+                { 4, new List<string>{"g", "h","i"} },
+                { 5, new List<string>{"j", "k","l"} },
+                { 6, new List<string>{"m", "n","o"} },
+                { 7, new List<string>{"p", "q","r", "s"} },
+                { 8, new List<string>{"t", "u","v"} },
+                { 9, new List<string>{"w", "x","y", "z"} },
+            };
+            if (digits.Length == 1)
+                return dict[int.Parse(digits)];
+            var result = new List<string>();
+            var queue = new Queue<string>();
+            queue.Enqueue("");
+
+            while (queue.Count > 0)
+            {
+                var current = queue.Dequeue();
+                if (current.Length == digits.Length)
+                {
+                    result.Add(current);
+                }
+                else
+                {
+                    var chars = dict[(int)(digits[current.Length] - '0')];
+                    foreach (var c in chars)
+                        queue.Enqueue(current + c);
+                }
+            }
+
+            return result;
+        }
+
+        public static bool FindTarget(TreeNode root, int k)
+        {
+            var exist = DFS(root, k, new Dictionary<int, int>());
+            return exist;
+        }
+        public static bool DFS(TreeNode root, int sum, Dictionary<int, int> summary)
+        {
+            if (root == null) return false;
+
+            if (summary.Values.Contains(root.val))
+                return true;
+
+
+            if (!summary.ContainsKey(root.val))
+                summary.Add(root.val, sum - root.val);
+
+
+            if (root.left != null)
+            {
+                if (DFS(root.left, sum, summary))
+                    return true;
+            }
+
+            if (root.right != null)
+            {
+                if (DFS(root.right, sum, summary))
+                    return true;
+            }
+            return false;
+        }
+        public static int[] SingleNumber(int[] nums)
+        {
+            var result = new int[2] { 0, 0 };
+            var xor = nums[0];
+            for (int i = 1; i < nums.Length; i++)
+            {
+                xor ^= nums[i];
+            }
+
+            var b = xor - (xor & (xor - 1));
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if ((nums[i] & b) == 0) // 0010 = 2, 0011 = 3, 0101 = 5, 5 ^ 3 = 0110 = 6
+                {
+                    result[0] ^= nums[i];
+                }
+            }
+            result[1] = xor ^ result[0];
+            return result;
+        }
+
+        public static IList<int> Postorder(Node root)
+        {
+            var result = new List<int>();
+            var currentIndex = 0;
+            var stack = new Stack<Tuple<Node, int>>();
+            while (root != null || stack.Count != 0)
+            {
+                if (root != null)
+                {
+                    stack.Push(Tuple.Create(root, currentIndex));
+                    currentIndex = 0;
+                    root = root.children.Count > 0 ? root.children[0] : null;
+                    continue;
+                }
+                var temp = stack.Pop();
+                result.Add(temp.Item1.val);
+
+                while (stack.Count != 0 && temp.Item2 == stack.Peek().Item1.children.Count - 1)
+                {
+                    temp = stack.Pop();
+                    result.Add(temp.Item1.val);
+                }
+
+                if (stack.Count != 0)
+                {
+                    currentIndex = temp.Item2 + 1;
+                    root = stack.Peek().Item1.children[currentIndex];
+                }
+            }
+            return result;
+
+        }
+
+
+        public static string AddStrings(string num1, string num2)
+        {
+            var result = new StringBuilder();
+            if (num1.Length > num2.Length)
+            {
+                var temp = num1;
+                num1 = num2;
+                num2 = temp;
+            }
+            var isRemind = false;
+            num1 = new string(num1.ToCharArray().Reverse().ToArray());
+            num2 = new string(num2.ToCharArray().Reverse().ToArray());
+            for (int i = 0; i < num1.Length; i++)
+            {
+                int c1 = num1[i] - '0';
+                int c2 = num2[i] - '0';
+
+                var c = c1 + c2 + (isRemind ? 1 : 0);
+                isRemind = c >= 10 ? true : false;
+                result.Append(c % 10);
+            }
+            for (int i = num1.Length; i < num2.Length; i++)
+            {
+                int c2 = num2[i] - '0';
+                var c = c2 + (isRemind ? 1 : 0);
+                isRemind = c >= 10 ? true : false;
+                result.Append(c % 10);
+            }
+            if (isRemind)
+            {
+                result.Append("1");
+            }
+            var ans = new StringBuilder();
+            for (int i = result.Length - 1; i >= 0; i--)
+            {
+                ans.Append(result[i]);
+            }
+            return ans.ToString();
+        }
+
+        public static bool IsPalindrome(int x)
+        {
+            long res = 0;
+            var y = x;
+            while (x > 0)
+            {
+                var r = x % 10;
+                res = (res + r) * 10;
+                x /= 10;
+            }
+
+            return y == res / 10;
+        }
+
+        private static int[] _dx = { 1, 2, 2, 1, -1, -2, -2, -1 };
+
+        private static int[] _dy = { 2, 1, -1, -2, -2, -1, 1, 2 };
+        private static double _possibleCount;
+        public static double KnightProbability(int n, int k, int row, int column)
+        {
+            var total = Math.Pow(8, k);
+            Prob(row, column, k, n);
+            return _possibleCount / total;
+        }
+
+        public static void Prob(int row, int column, int k, int n)
+        {
+            if (k == 0)
+            {
+                _possibleCount++;
+                return;
+            }
+            for (int i = 0; i < 8; i++)
+            {
+                var dx = _dx[i] + row;
+                var dy = _dy[i] + column;
+
+                if (IsBoard(dx, dy, n))
+                {
+                    Prob(dx, dy, k - 1, n);
+                }
+            }
+        }
+
+        public static bool IsBoard(int i, int j, int n)
+        {
+            return i >= 0 && i < n && j >= 0 && j < n;
+        }
+        public static int[] SortArrayByParity(int[] nums)
+        {
+            if (nums.Length == 1) return nums;
+            var result = new int[nums.Length];
+            var odd = nums.Length - 1; var even = 0;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] % 2 == 0)
+                {
+                    result[even++] = nums[i];
+                }
+                else
+                {
+                    result[odd--] = nums[i];
+                }
+            }
+            return result;
+        }
+
+        public static IList<TreeNode> DelNodes(TreeNode root, int[] to_delete)
+        {
+            var res = new List<TreeNode>();
+            Dfs(root, to_delete, res, true);
+            return res;
+        }
+        public static void Dfs(TreeNode root, int[] to_delete, List<TreeNode> result, bool isRoot)
+        {
+            var isRootContainDel = to_delete.Contains(root.val);
+            if (!isRootContainDel && isRoot)
+                result.Add(root);
+
+            isRoot = isRootContainDel;
+
+            if (root.left != null)
+            {
+                Dfs(root.left, to_delete, result, isRoot);
+                if (to_delete.Contains(root.left.val))
+                    root.left = null;
+            }
+
+            if (root.right != null)
+            {
+                Dfs(root.right, to_delete, result, isRoot);
+                if (to_delete.Contains(root.right.val))
+                    root.right = null;
+            }
         }
 
         public static ListNode SwapNodes(ListNode head, int k)
@@ -783,6 +1147,13 @@ namespace Leetcode
     {
         public int val;
         public ListNode next;
+        public ListNode random;
+        public ListNode(int _val)
+        {
+            val = _val;
+            next = null;
+            random = null;
+        }
         public ListNode(int val = 0, ListNode next = null)
         {
             this.val = val;
