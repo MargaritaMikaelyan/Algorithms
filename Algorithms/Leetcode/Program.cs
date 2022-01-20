@@ -101,9 +101,143 @@ namespace Leetcode
             //    new TreeNode(6, null, new TreeNode(6, null, new TreeNode(7))));
             //FindTarget(treeNode, 100);
             //LetterCombinations("234");
-          //  Trap(new int[] { 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1 });
-            #endregion
+            //  Trap(new int[] { 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1 });
+            // Console.WriteLine(BuddyStrings("ab","ca"));
+            //
+            //int[][] jaggedArray = new int[][]
+            //{
+            //    new int[] { 3,3,1,1},
+            //    new int[] {2,2,1,2},
+            //    new int[] { 1,1,1,2}
+            //};
+            //var m = DiagonalSort(jaggedArray);
+            //for (int i = 0; i < m.Length; i++)
+            //{
+            //    Console.WriteLine(string.Join(" ", m[i]));
+            //}
+            // Console.WriteLine(CountCharacters(new string[] { "hello", "world", "leetcode" }, "welldonehoneyr"));
 
+            Console.WriteLine(NumRollsToTarget(30, 30, 500));
+            #endregion
+        }
+
+        public static int NumRollsToTarget(int n, int k, int target)
+        {
+            var mod = (int)Math.Pow(10, 9) + 7;
+            var res = new int[n + 1, target + 1];
+            for (int i = 0; i < n+1; i++)
+            {
+                for (int j = 0; j < target+1; j++)
+                {
+                    res[i, j] = -1;
+                }
+            }
+            return Rolls(n, k, target, res, mod);
+        }
+        public static int Rolls(int n, int k, int target, int[,] result, int mod)
+        {
+            if (n == 0 && target == 0) return 1;
+            if (n <= 0 || target <= 0) return 0;
+            if (result[n, target] != -1) return result[n, target];
+
+            long res = 0;
+
+            for (int i = 1; i <= k; i++)
+                res = res % mod  + Rolls(n - 1, k, target - i, result, mod) % mod;
+
+            result[n, target] = (int)res % mod;
+            return result[n, target];
+        }
+        public static int CountCharacters(string[] words, string chars)
+        {
+            var dict = new Dictionary<char, int>();
+            foreach (var c in chars)
+            {
+                if (dict.ContainsKey(c))
+                    dict[c]++;
+                else dict.Add(c, 1);
+            }
+            var res = 0;
+            foreach (var word in words)
+            {
+                var d = new Dictionary<char, int>();
+                var b = false;
+
+                foreach (var w in word)
+                {
+                    if (!dict.ContainsKey(w))
+                    {
+                        b = true;
+                        break;
+                    }
+                    if (d.ContainsKey(w)) d[w]++;
+                    else d.Add(w, 1);
+                }
+                if (!b)
+                {
+                    var c = false;
+                    foreach (var item in d)
+                    {
+                        if (dict[item.Key] < item.Value)
+                        {
+                            c = true;
+                            break;
+                        }
+                    }
+                    if (!c) res += word.Length;
+                }
+            }
+            return res;
+        }
+        public static int[][] DiagonalSort(int[][] mat)
+        {
+            var row = mat.Length;
+            var column = mat[0].Length;
+            for (int i = 0; i < row; i++)
+            {
+                var numbers = new List<int>();
+                int x = i, y = 0;
+                while (x < row && y < column)
+                    numbers.Add(mat[x++][y++]);
+                numbers.Sort();
+                x = i;
+                y = 0;
+                foreach (var n in numbers)
+                    mat[x++][y++] = n;
+            }
+
+            for (int i = 1; i < column; i++)
+            {
+                var numbers = new List<int>();
+                int x = 0, y = i;
+                while (x < row && y < column)
+                    numbers.Add(mat[x++][y++]);
+                numbers.Sort();
+                x = 0;
+                y = i;
+                foreach (var n in numbers)
+                    mat[x++][y++] = n;
+            }
+            return mat;
+        }
+
+        public static bool BuddyStrings(string s, string goal)
+        {
+            if (s.Length != goal.Length) return false;
+            var indecies = new List<int>();
+            var dict = new Dictionary<char, int>();
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i] != goal[i])
+                    indecies.Add(i);
+                if (dict.ContainsKey(s[i]))
+                    dict[s[i]]++;
+                else dict.Add(s[i], 1);
+            }
+
+            return (indecies.Count == 2 && (s[indecies[0]] == goal[indecies[1]] && s[indecies[1]] == goal[indecies[0]]))
+                ||
+                (indecies.Count == 0 && dict.Values.Any(x => x >= 2)) ? true : false;
         }
 
         public static ListNode CopyRandomList(ListNode head)
